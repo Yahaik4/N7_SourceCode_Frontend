@@ -1,5 +1,5 @@
 const images = {
-    logo: require('./CellphoneS-Logo-PNG-1.png'),
+    logo: require('./logo.svg').default,
 }
 
 export default images
