@@ -6,7 +6,7 @@ import { AiOutlineRight } from 'react-icons/ai';
 
 import styles from './Catalog.module.scss';
 import CatalogChild from './CatalogChild';
-import catalogItems from '../constants/catalogItems';
+import catalogItems from '../../constants/catalogItems';
 
 function Catalog(props) {
     const isDropdown = props.isDropDown || false;

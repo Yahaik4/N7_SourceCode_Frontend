@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 import styles from './Home.module.scss';
-import Catalog from '../components/Catalog';
+import Catalog from '../components/Catalog/Catalog';
 
 function HomePage() {
     return (

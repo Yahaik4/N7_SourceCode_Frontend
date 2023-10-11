@@ -12,7 +12,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 // file
 import styles from './Header.module.scss';
 import images from '../assets/img';
-import Catalog from './Catalog';
+import Catalog from './Catalog/Catalog';
 
 function Header() {
     const [showCatalogModal, setShowCatalogModal] = useState(false);
