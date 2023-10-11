@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import styles from './CatalogChild.module.scss';
 
-
 function CatalogChild(props) {
     const data = props.content;
 
@@ -12,7 +11,7 @@ function CatalogChild(props) {
             {data.map((item, index) => {
                 return (
                     <div key={index}>
-                        <h3>{item.title}</h3>
+                        <h4>{item.title}</h4>
                         {item.subTitles.map((subTitle, index) => {
                             return (
                                 <Link to="/#" key={index}>

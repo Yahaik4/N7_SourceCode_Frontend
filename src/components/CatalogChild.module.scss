@@ -1,25 +1,26 @@
-.wrapper{
+.wrapper {
     min-height: 375px;
     width: 1058px;
     position: absolute;
-    top: 0;
-    left: 200px;
-    box-shadow: 0 1px 2px 0 rgba(60,64,67,.1), 0 2px 6px 2px rgba(60,64,67,.15);
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.1), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
     border-radius: 0 10px 10px 0;
     padding: 5px 15px;
-    z-index: 990;
+    z-index: 989;
     background-color: white;
     display: grid;
-    grid-template-columns: repeat(5,1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
-    
-    a{
+
+    a {
         text-decoration: none;
-        color: black;
-        &:hover{
+        color: #707070;
+
+        p {
+            margin: 10px 0;
+        }
+
+        &:hover {
             color: var(--primary-background-color);
         }
     }
-
-
 }

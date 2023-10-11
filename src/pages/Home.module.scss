@@ -1,13 +1,12 @@
-.topHome{
+.topHome {
     display: flex;
     margin: 10px 0;
+    margin-top: calc(var(--layout-header-height) + 10px);
 
-    .mainMenu{
-        position: relative;
+    .mainMenu {
     }
 
-    .slider{
+    .slider {
         flex-shrink: 1;
     }
-
 }

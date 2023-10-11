@@ -6,6 +6,6 @@
 
 .container{
     min-height: 1000px;
-    width: 1258px;
-    background-color: #ccc;
+    width: var(--layout-width-content);
+    // background-color: #ccc;
 }
