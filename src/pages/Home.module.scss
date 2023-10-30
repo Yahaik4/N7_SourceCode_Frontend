@@ -1,12 +1,12 @@
 .topHome {
     display: flex;
+    gap: 20px;
     margin: 10px 0;
     margin-top: calc(var(--layout-header-height) + 10px);
-
     .mainMenu {
     }
 
     .slider {
-        flex-shrink: 1;
+        // flex-shrink: 0;
     }
 }

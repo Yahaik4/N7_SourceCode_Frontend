@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 
 import styles from './Home.module.scss';
-import Catalog from '../components/Catalog/Catalog';
+import Catalog from '../components/Catalog';
+import Slider from '../components/Slider';
 
 function HomePage() {
     return (
@@ -11,7 +12,7 @@ function HomePage() {
                     <Catalog />
                 </div>
                 <div className={clsx(styles.slider)}>
-                    <h1>Slider</h1>
+                    <Slider />
                 </div>
                 <div className={clsx(styles.Banner)}>
                     <h1>Banner</h1>
