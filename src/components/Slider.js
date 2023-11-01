@@ -6,31 +6,54 @@ import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft } from 'react-i
 
 import slideShowItems from '../constants/slideShowItems';
 import styles from './Slider.module.scss';
+// import DraggableSlide from './DraggableSlide';
 
 function Slider() {
     const [slideIndex, setSlideIndex] = useState(0);
+
+    const timeOutRef = useRef(null);
+    const slideContentsRef = useRef();
+
+    function resetTimeOut() {
+        if (timeOutRef) {
+            clearTimeout(timeOutRef.current);
+        }
+    }
+
     useEffect(() => {
-        setTimeout(() => {
+        resetTimeOut();
+        timeOutRef.current = setTimeout(() => {
             setSlideIndex((prevIndex) => (prevIndex === slideShowItems.length - 1 ? 0 : prevIndex + 1));
         }, 5000);
+        return () => {
+            resetTimeOut();
+        };
     }, [slideIndex]);
-    
+
+    const handleNextSlide = () => {
+        setSlideIndex((prevIndex) => (prevIndex === slideShowItems.length - 1 ? 0 : prevIndex + 1));
+    };
+
+    const handlePrevSlide = () => {
+        setSlideIndex((prevIndex) => (prevIndex === 0 ? slideShowItems.length - 1 : prevIndex - 1));
+    };
+
 
     return (
         <div className={clsx(styles.wrapper)}>
-            <div className={clsx(styles.imgsSection)}>
+            <div className={clsx(styles.imgSection)}>
                 <div
                     className={clsx(styles.slideImages)}
                     style={{ transform: `translate3d(${-slideIndex * 100}%,0,0)` }}
                 >
                     {slideShowItems.map((slide, index) => {
-                        return <img key={index} src={slide.img} alt={slide.title} width="690" height="300" />;
+                        return <img key={index} src={slide.img} alt={slide.title} width="700"/>;
                     })}
                 </div>
-                <div className={clsx(styles.nextButton)}>
+                <div className={clsx(styles.nextButton)} onClick={handleNextSlide}>
                     <MdOutlineKeyboardArrowRight className={clsx(styles.btnIcon)} />
                 </div>
-                <div className={clsx(styles.prevButton)}>
+                <div className={clsx(styles.prevButton)} onClick={handlePrevSlide}>
                     <MdOutlineKeyboardArrowLeft className={clsx(styles.btnIcon)} />
                 </div>
             </div>
@@ -38,7 +61,12 @@ function Slider() {
             <div className={clsx(styles.contentsSection)}>
                 <div
                     className={clsx(styles.slideContents)}
-                    style={slideIndex > 6?{ transform: `translate3d(-125%,0,0)` }:{ transform: `translate3d(${-slideIndex * 15}%,0,0)` }}
+                    ref={slideContentsRef}
+                    style={
+                        slideIndex > 6
+                            ? { transform: `translate3d(-110%,0,0)` }
+                            : { transform: `translate3d(${-slideIndex * 15}%,0,0)` }
+                    }
                 >
                     {slideShowItems.map((slide, index) => {
                         let isActive = false;
@@ -51,6 +79,7 @@ function Slider() {
                                 className={clsx(styles.slideContent, {
                                     [styles.active]: isActive,
                                 })}
+                                onClick={() => setSlideIndex(index)}
                             >
                                 <p>{slide.title}</p>
                                 <p>{slide.subTitle}</p>

@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 
 import styles from './Home.module.scss';
-import Catalog from '../components/Catalog';
-import Slider from '../components/Slider';
+import Catalog from '../../components/Catalog';
+import Slider from '../../components/Slider';
+import Banner from './Banner';
 
 function HomePage() {
     return (
@@ -14,8 +15,8 @@ function HomePage() {
                 <div className={clsx(styles.slider)}>
                     <Slider />
                 </div>
-                <div className={clsx(styles.Banner)}>
-                    <h1>Banner</h1>
+                <div className={clsx(styles.banner)}>
+                    <Banner/>
                 </div>
             </section>
             <section className={clsx(styles.listPhones)}>List Phone Products</section>

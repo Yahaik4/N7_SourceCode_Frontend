@@ -1,0 +1,19 @@
+.topHome {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 20px;
+    height: 400px;
+    margin-top: calc(var(--layout-header-height) + 20px);
+
+    .mainMenu{
+        // flex-grow: 1;
+    }
+
+    .slider{
+        // flex-grow: 2;
+    }
+
+    .banner{
+        // flex-grow: 1;
+    }
+}
