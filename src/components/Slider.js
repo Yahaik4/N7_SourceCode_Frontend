@@ -12,7 +12,6 @@ function Slider() {
     const [slideIndex, setSlideIndex] = useState(0);
 
     const timeOutRef = useRef(null);
-    const slideContentsRef = useRef();
 
     function resetTimeOut() {
         if (timeOutRef) {
@@ -61,7 +60,6 @@ function Slider() {
             <div className={clsx(styles.contentsSection)}>
                 <div
                     className={clsx(styles.slideContents)}
-                    ref={slideContentsRef}
                     style={
                         slideIndex > 6
                             ? { transform: `translate3d(-110%,0,0)` }

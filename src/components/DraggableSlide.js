@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
+import { useState,useRef } from "react";
 
-const DraggableSlide = ({ rootClass = '', children }) => {
+const Draggable = ({ rootClass = '', children }) => {
     const ourRef = useRef(null);
     const [isMouseDown, setIsMouseDown] = useState(false);
     const mouseCoords = useRef({
@@ -9,8 +9,6 @@ const DraggableSlide = ({ rootClass = '', children }) => {
         scrollLeft: 0,
         scrollTop: 0,
     });
-
-    // const [isScrolling, setIsScrolling] = useState(false);   
     const handleDragStart = (e) => {
         if (!ourRef.current) return;
         const slider = ourRef.current.children[0];
@@ -21,11 +19,14 @@ const DraggableSlide = ({ rootClass = '', children }) => {
         mouseCoords.current = { startX, startY, scrollLeft, scrollTop };
         setIsMouseDown(true);
         document.body.style.cursor = 'grabbing';
+        console.log(mouseCoords);
     };
     const handleDragEnd = () => {
         setIsMouseDown(false);
         if (!ourRef.current) return;
         document.body.style.cursor = 'default';
+        console.log(mouseCoords);
+
     };
     const handleDrag = (e) => {
         if (!isMouseDown || !ourRef.current) return;
@@ -46,11 +47,11 @@ const DraggableSlide = ({ rootClass = '', children }) => {
             onMouseDown={handleDragStart}
             onMouseUp={handleDragEnd}
             onMouseMove={handleDrag}
-            className={rootClass}
+            className={rootClass + 'flex overflow-x-scroll'}
         >
             {children}
         </div>
     );
 };
 
-export default DraggableSlide;
+export default Draggable;

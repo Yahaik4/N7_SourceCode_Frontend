@@ -8,7 +8,7 @@ function Layout({ children }) {
         <div className={clsx(styles.wrapper)}>
             <Header />
             <div className={clsx(styles.container)}>
-                <div className="content">{children}</div>
+                <div className={clsx(styles.content)}>{children}</div>
             </div>
         </div>
     );

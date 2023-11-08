@@ -119,6 +119,7 @@
 .catalogDropDownModal {
     position: fixed;
     background-color: rgba(0, 0, 0, 0.3);
+    z-index: 989;
     top: 0;
     left: 0;
     right: 0;
