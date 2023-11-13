@@ -2,11 +2,10 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 import styles from './Section.module.scss';
-// import producers from '../../constants/producer';
 
 function Section(props) {
     const children = props.children;
-    const producers = props.data;
+    const producers = [...props.data, 'Xem tất cả'];
     let title = '';
     switch (props.type) {
         case 'phones':
@@ -33,6 +32,15 @@ function Section(props) {
         case 'tivi':
             title = 'TIVI';
             break;
+        case 'accessories':
+            title = 'PHỤ KIỆN';
+            break;
+        case 'pcComponents':
+            title = 'LINH KIỆN MÁY TÍNH';
+            break;
+        case 'secondHands':
+            title = 'HÀNG CŨ';
+            break;
         default:
             break;
     }
@@ -50,9 +58,7 @@ function Section(props) {
                     })}
                 </div>
             </div>
-            <div className={clsx(styles.container)}>
-                {children}
-            </div>
+            <div className={clsx(styles.container)}>{children}</div>
         </div>
     );
 }

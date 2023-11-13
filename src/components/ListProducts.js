@@ -21,18 +21,10 @@ function formatCash(numb) {
 
 function ListProducts(props) {
     const productItems = props.data || [];
-    const isSlideShow = props.isSlideShow;
-
-    // slide setting
-    const index = props.index;
-    const translatePercent = props.translatePercent;
 
     const [isHoverWishListBtn, setIsHoverWishListBtn] = useState(-1);
     return (
-        <div
-            className={clsx(styles.productItems, { [styles.overFlowX]: isSlideShow })}
-            style={{ transform: `translate3d(${-index * translatePercent}%,0,0)` }}
-        >
+        <>
             {productItems.map((item, index) => {
                 let isPreferential = false;
                 let isSaleOff = false;
@@ -45,7 +37,7 @@ function ListProducts(props) {
 
                 return (
                     <Link to="/" key={index} className={clsx(styles.productItem)}>
-                        <div className={clsx(styles.percentOffRibbon,{[styles.active]: isSaleOff})}>
+                        <div className={clsx(styles.percentOffRibbon, { [styles.active]: isSaleOff })}>
                             <p className={clsx(styles.percentOffDetail)}>Giảm {item.percentOff}</p>
                         </div>
                         <div className={clsx(styles.productImg)}>
@@ -97,7 +89,7 @@ function ListProducts(props) {
                     </Link>
                 );
             })}
-        </div>
+        </>
     );
 }
 

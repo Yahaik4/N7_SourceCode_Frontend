@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 // icon
 import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 
-import slideShowItems from '../constants/slideShowItems';
-import styles from './Slider.module.scss';
-// import DraggableSlide from './DraggableSlide';
+import slideShowItems from '../../constants/slideShowItems';
+import styles from './BannerSlide.module.scss';
 
-function Slider() {
+function BannerSlide() {
     const [slideIndex, setSlideIndex] = useState(0);
 
     const timeOutRef = useRef(null);
@@ -37,7 +36,6 @@ function Slider() {
         setSlideIndex((prevIndex) => (prevIndex === 0 ? slideShowItems.length - 1 : prevIndex - 1));
     };
 
-
     return (
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.imgSection)}>
@@ -46,7 +44,7 @@ function Slider() {
                     style={{ transform: `translate3d(${-slideIndex * 100}%,0,0)` }}
                 >
                     {slideShowItems.map((slide, index) => {
-                        return <img key={index} src={slide.img} alt={slide.title} width="700"/>;
+                        return <img key={index} src={slide.img} alt={slide.title} width="700" />;
                     })}
                 </div>
                 <div className={clsx(styles.nextButton)} onClick={handleNextSlide}>
@@ -90,4 +88,4 @@ function Slider() {
     );
 }
 
-export default Slider;
+export default BannerSlide;

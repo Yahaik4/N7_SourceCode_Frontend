@@ -5,15 +5,16 @@ import styles from './Home.module.scss';
 // Constant data
 import productItems from '../../constants/productItems';
 import producers from '../../constants/producer';
+import categories from '../../constants/categories';
+import images from '../../assets/img';
 
 // Component
 import Catalog from '../../components/Catalog';
-import Slider from '../../components/Slider';
-import Banner from './Banner';
+import BannerSlide from './BannerSlide';
 import ListProduct from '../../components/ListProducts';
 import Section from './Section';
 import Slide from '../../components/Slide';
-import Draggable from '../../components/DraggableSlide';
+import Categories from './Categories';
 
 function HomePage() {
     return (
@@ -23,30 +24,39 @@ function HomePage() {
                     <Catalog />
                 </div>
                 <div className={clsx(styles.slider)}>
-                    <Slider />
+                    <BannerSlide />
                 </div>
                 <div className={clsx(styles.banner)}>
-                    <Banner />
+                    {images.banners.map((banner, index) => {
+                        return <img key={index} src={banner} className={clsx(styles.banner)} alt="" />;
+                    })}
                 </div>
             </section>
-            <section className={clsx(styles.listPhones)}>
-                <Section type={'phones'} data={producers.phones}>
-                    <Draggable>
-                        <Slide slideShowItemLength={productItems.length / 2 - 5} translatePercent={20}>
-                            <ListProduct isSlideShow={true} data={productItems} />
+            {Object.keys(producers).map((key, index) => {
+                return (
+                    <Section key={index} type={key} data={producers[key]}>
+                        <Slide
+                            slideShowItemLength={productItems.length / 2 - 5}
+                            translatePercent={20}
+                            showHandleSlideBtn={true}
+                        >
+                            <ListProduct data={productItems} />
                         </Slide>
-                    </Draggable>
-                </Section>
-            </section>
-            <section className={clsx(styles.listLaptops)}>List Laptop Products</section>
-            <section className={clsx(styles.listPCs)}>List Screen&PC Products</section>
-            <section className={clsx(styles.listIpads)}>List Ipad Products</section>
-            <section className={clsx(styles.listAudios)}>List Audio Products</section>
-            <section className={clsx(styles.listSmartWatches)}>List SmartWatch Products</section>
-            <section className={clsx(styles.listHousewares)}>List Houseware Products</section>
-            <section className={clsx(styles.listAccessories)}>List Accessories Products</section>
-            <section className={clsx(styles.listPCComponents)}>List PC Components Products</section>
-            <section className={clsx(styles.listSecondhands)}>List Secondhand Products</section>
+                    </Section>
+                );
+            })}
+
+            {
+                Object.keys(categories).map((key, index) => {
+                    return (
+                        <Section key={index} type={key} data={[]}>
+                            <Categories data={categories[key]} type={key}/>
+                        </Section>
+                    )
+                })
+            }
+
+
         </div>
     );
 }
