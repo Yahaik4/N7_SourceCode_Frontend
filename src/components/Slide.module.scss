@@ -45,7 +45,6 @@
         display: flex;
         cursor: pointer;
     }
-
 }
 
 .slideShow {
@@ -58,12 +57,26 @@
     &::-webkit-scrollbar {
         display: none;
     }
-    
+
     .slide {
         // width: 100%;
+        // overflow-x: scroll;
+        // display: grid;
+        // grid-template-columns: auto;
+        // grid-auto-flow: column;
+        // grid-template-rows: auto auto;
+        // gap: 10px;
+        // padding: 0 5px;
+        // -ms-overflow-style: none; /* IE and Edge */
+        // scrollbar-width: none; /* Firefox */
+        // &::-webkit-scrollbar {
+        //     display: none;
+        // }
+
         max-height: 926px;
         display: flex;
         flex-flow: column wrap;
+        padding: 0 5px;
         gap: 10px;
         transition: ease 1000ms;
     }

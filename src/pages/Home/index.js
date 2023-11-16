@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 
 import styles from './Home.module.scss';
 
@@ -27,8 +28,12 @@ function HomePage() {
                     <BannerSlide />
                 </div>
                 <div className={clsx(styles.banner)}>
-                    {images.banners.map((banner, index) => {
-                        return <img key={index} src={banner} className={clsx(styles.banner)} alt="" />;
+                    {images.banners.topHomeBanner.map((banner, index) => {
+                        return (
+                            <Link to="/" key={index}>
+                                <img src={banner} className={clsx(styles.banner)} alt="" />
+                            </Link>
+                        );
                     })}
                 </div>
             </section>
@@ -46,17 +51,50 @@ function HomePage() {
                 );
             })}
 
-            {
-                Object.keys(categories).map((key, index) => {
-                    return (
-                        <Section key={index} type={key} data={[]}>
-                            <Categories data={categories[key]} type={key}/>
-                        </Section>
-                    )
-                })
-            }
+            {Object.keys(categories).map((type, index) => {
+                return (
+                    <Section key={index} type={type} data={[]}>
+                        <Categories data={categories[type]} type={type} />
+                    </Section>
+                );
+            })}
 
+            <Section type={''} data={[]} title={'Ưu đãi thanh toán'}>
+                <div className={clsx(styles.brandBanner)}>
+                    {images.banners.paymentIncentive.map((banner, index) => {
+                        return (
+                            <Link key={index} to="/" className={clsx(styles.brandBannerImg)}>
+                                <img src={banner} alt="" />
+                            </Link>
+                        );
+                    })}
+                </div>
+            </Section>
 
+            <Section type={''} data={[]} title={'chuyên trang thương hiệu'}>
+                <div className={clsx(styles.brandBanner)}>
+                    {images.banners.brandIncentive.map((banner, index) => {
+                        return (
+                            <Link key={index} to="/" className={clsx(styles.brandBannerImg)}>
+                                <img src={banner} alt="" />
+                            </Link>
+                        );
+                    })}
+                </div>
+            </Section>
+
+            <Section type={''} data={[]} title={'tin công nghệ'}>
+                <div className={clsx(styles.techNews)}>
+                    {images.techNews.map((news, index) => {
+                        return (
+                            <Link key={index} to="/" className={clsx(styles.news)}>
+                                <img src={news.img} alt="" className={clsx(styles.newsImg)} />
+                                <p className={clsx(styles.newsTitle)}>{news.title}</p>
+                            </Link>
+                        );
+                    })}
+                </div>
+            </Section>
         </div>
     );
 }

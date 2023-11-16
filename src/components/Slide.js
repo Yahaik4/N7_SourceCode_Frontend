@@ -39,7 +39,6 @@ function Slide(props) {
             resetTimeOut();
         };
     }, [slideIndex, slideShowItemLength]);
-
     const handleNextSlide = () => {
         setSlideIndex((prevIndex) => (prevIndex === slideShowItemLength ? 0 : prevIndex + 1));
     };

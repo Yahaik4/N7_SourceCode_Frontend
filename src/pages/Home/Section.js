@@ -42,6 +42,7 @@ function Section(props) {
             title = 'HÀNG CŨ';
             break;
         default:
+            title = props.title;
             break;
     }
     return (
@@ -58,7 +59,7 @@ function Section(props) {
                     })}
                 </div>
             </div>
-            <div className={clsx(styles.container)}>{children}</div>
+            {children}
         </div>
     );
 }
