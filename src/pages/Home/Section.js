@@ -2,12 +2,13 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 import styles from './Section.module.scss';
+import { removeAccents } from '../../utils';
 
 function Section(props) {
-    const children = props.children;
+    const { children, type } = props;
     const producers = [...props.data, 'Xem tất cả'];
     let title = '';
-    switch (props.type) {
+    switch (type) {
         case 'phones':
             title = 'ĐIỆN THOẠI NỔI BẬT NHẤT';
             break;
@@ -52,7 +53,15 @@ function Section(props) {
                 <div className={clsx(styles.producers)}>
                     {producers.map((item, index) => {
                         return (
-                            <Link key={index} to="/" className={clsx(styles.producer)}>
+                            <Link
+                                key={index}
+                                to={
+                                    item.localeCompare('Xem tất cả')
+                                        ? type.concat('/', removeAccents(item).replaceAll(' ', '-'))
+                                        : type
+                                }
+                                className={clsx(styles.producer)}
+                            >
                                 {item}
                             </Link>
                         );

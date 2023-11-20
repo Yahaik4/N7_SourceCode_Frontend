@@ -14,7 +14,7 @@ function CatalogChild(props) {
                         <h4>{item.title}</h4>
                         {item.subTitles.map((subTitle, index) => {
                             return (
-                                <Link to="/#" key={index}>
+                                <Link to="/" key={index}>
                                     <p key={index}>{subTitle}</p>
                                 </Link>
                             );

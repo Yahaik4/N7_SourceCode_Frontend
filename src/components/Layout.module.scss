@@ -5,7 +5,7 @@
     position: relative;
 }
 
-#backToTop{
+#backToTop {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,19 +21,18 @@
     opacity: 1;
     font-size: 10px;
     color: aliceblue;
-    background-color: rgba(215,0,24,.7);
+    background-color: rgba(215, 0, 24, 0.7);
     cursor: pointer;
-    .icon{
+    .icon {
         font-size: 15px;
     }
 }
 
-.container{
+.container {
     min-height: 1000px;
     width: var(--layout-width-content);
     // background-color: #ccc;
-    .content{
-
+    .content {
+        margin-top: calc(var(--layout-header-height) + 20px);
     }
 }
-

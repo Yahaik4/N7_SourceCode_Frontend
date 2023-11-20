@@ -6,9 +6,12 @@ import ProductDetailsPage from '../pages/ProductDetails';
 import SearchPage from '../pages/Search';
 import Layout from '../components/Layout';
 import Payment from '../pages/Payment';
+import Products from '../pages/products';
 
 const publicRoutes = [
     { path: '/', component: HomePage, layout: Layout },
+    { path: '/:products', component: Products, layout: Layout },
+    { path: '/:products/:producer', component: Products, layout: Layout },
     { path: '/cart', component: CartPage, layout: Layout },
     { path: '/productDetails', component: ProductDetailsPage, layout: Layout },
     { path: '/searchResult', component: SearchPage, layout: Layout },

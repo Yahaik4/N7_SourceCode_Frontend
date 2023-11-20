@@ -1,23 +1,12 @@
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 // icon
 import { AiFillStar, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 import styles from './ListProducts.module.scss';
-import { useState } from 'react';
-
-function formatCash(numb) {
-    const str = numb.toString();
-    return (
-        str
-            .split('')
-            .reverse()
-            .reduce((prev, next, index) => {
-                return (index % 3 ? next : next + '.') + prev;
-            }) + '₫'
-    );
-}
+import { formatCash } from '../utils';
 
 function ListProducts(props) {
     const productItems = props.data || [];

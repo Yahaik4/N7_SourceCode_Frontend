@@ -10,17 +10,15 @@
 
 
     .topFooter {
-        min-width: 1200px;
+        min-width: var(--layout-width-content);
         display: flex;
         flex-basis: 25%;
         justify-content: space-between;
-
     }
 
     .boxInfor {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         width: 100%;
         .title {
             font-size: 16px;
@@ -70,8 +68,9 @@
         background-color: #f8f8f8;
         display: flex;
         justify-content: center;
+        margin-top: 20px;
         .container{
-            min-width: 1200px;
+            min-width: var(--layout-width-content);
             display: flex;
             flex-basis: 25%;
             justify-content: space-between;
