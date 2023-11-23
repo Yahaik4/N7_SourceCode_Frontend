@@ -16,6 +16,11 @@ const banners = {
         require('./banner-sliding-apple-112.webp'),
         require('./th-hieu-ss-0013.webp'),
     ],
+    productsPageBanner: [
+        require('./apple-pay-cate-08.webp'),
+        require('./banner-cate-apple.webp'),
+        require('./cate-iphone-new-tragop.webp'),
+    ],
 };
 
 export default banners;

@@ -1,0 +1,20 @@
+.wrapper{
+
+    .bannerSlider{
+        display: flex;
+        justify-content: space-around;        
+
+        .banner{
+            display: flex;
+            width: 595px;
+            height: 100px;
+            gap: unset;
+            overflow: hidden;
+            border-radius: 10px;
+
+            img{
+                min-width: 100%;
+            }
+        }
+    }
+}

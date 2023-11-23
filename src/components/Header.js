@@ -16,10 +16,21 @@ import Catalog from './Catalog';
 
 function Header() {
     const [showCatalogModal, setShowCatalogModal] = useState(false);
+    const [isMouseOnModal, setIsMouseOnModal] = useState(true);
 
-    const handleOnClickMenuBtn = () => {
-        setShowCatalogModal(!showCatalogModal);
+    console.log(showCatalogModal);
+    const handleCloseModal = () => {
+        if (isMouseOnModal) {
+            setShowCatalogModal(isMouseOnModal);
+        }
     };
+
+    const handleMouseOnModal = (data) => {
+        console.log(data);
+        setIsMouseOnModal(data);
+    };
+
+    console.log('header re-render');
 
     return (
         <>
@@ -28,7 +39,10 @@ function Header() {
                     <Link to="/">
                         <img src={images.logo} alt="logo" />
                     </Link>
-                    <div className={clsx(styles.menuButton, styles.btn)} onClick={handleOnClickMenuBtn}>
+                    <div
+                        className={clsx(styles.menuButton, styles.btn)}
+                        onClick={() => setShowCatalogModal(!showCatalogModal)}
+                    >
                         <LuMenuSquare className={clsx(styles.icon)} /> Danh mục
                     </div>
                     <div className={clsx(styles.localStoreButton, styles.btn)}>
@@ -60,7 +74,7 @@ function Header() {
                         </div>
                     </Link>
                     <Link to="/">
-                        <div className={clsx(styles.localStoreButton, styles.btn)}>
+                        <div className={clsx(styles.localStoreButton)}>
                             <SlLocationPin className={clsx(styles.icon)} />
                             <div className={clsx(styles.localStoreContent)}>
                                 Cửa hàng <br /> gần bạn
@@ -89,8 +103,8 @@ function Header() {
             </header>
 
             {showCatalogModal && (
-                <div className={clsx(styles.catalogDropDownModal)} onClick={handleOnClickMenuBtn}>
-                    <Catalog isDropDown={true} />
+                <div className={clsx(styles.catalogDropDownModal)} onPointerDown={handleCloseModal}>
+                    <Catalog isDropDown={showCatalogModal} handleMouseOnModal={handleMouseOnModal} />
                 </div>
             )}
         </>

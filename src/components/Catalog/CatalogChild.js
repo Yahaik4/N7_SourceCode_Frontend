@@ -5,7 +5,6 @@ import styles from './CatalogChild.module.scss';
 
 function CatalogChild(props) {
     const data = props.content;
-
     return (
         <div className={clsx(styles.wrapper)}>
             {data.map((item, index) => {

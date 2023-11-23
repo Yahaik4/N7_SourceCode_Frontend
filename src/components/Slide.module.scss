@@ -1,5 +1,6 @@
 .container{
     width: 100%;
+    height: fit-content;
     position: relative;
 
     .prevButton {
@@ -7,7 +8,8 @@
         align-items: center;
         justify-content: center;
         position: absolute;
-        top: 45%;
+        top: 50%;
+        transform: translateY(-50%);
         left: 0;
         background-color: rgba(0, 0, 0, 0.3);
         border-radius: 0 100px 100px 0;
@@ -26,7 +28,8 @@
         align-items: center;
         justify-content: center;
         position: absolute;
-        top: 45%;
+        top: 50%;
+        transform: translateY(-50%);
         right: 0;
         background-color: rgba(0, 0, 0, 0.3);
         border-radius: 100px 0 0 100px;
@@ -48,6 +51,7 @@
 }
 
 .slideShow {
+    width: fit-content;
     position: relative;
     overflow: hidden;
 
@@ -73,11 +77,12 @@
         //     display: none;
         // }
 
-        max-height: 926px;
-        display: flex;
-        flex-flow: column wrap;
-        padding: 0 5px;
-        gap: 10px;
+        // max-height: 926px;
+        // display: flex;
+        // flex-flow: column wrap;
+        // padding: 0 5px;
+        // gap: 10px;
+        
         transition: ease 1000ms;
     }
 }

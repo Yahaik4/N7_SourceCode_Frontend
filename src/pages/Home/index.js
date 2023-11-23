@@ -44,6 +44,13 @@ function HomePage() {
                             slideShowItemLength={productItems.length / 2 - 5}
                             translatePercent={20}
                             showHandleSlideBtn={true}
+                            settingStyles={{
+                                maxHeight: 926,
+                                display: 'flex',
+                                flexFlow: 'column wrap',
+                                gap: 10,
+                                padding: '0 5px',
+                            }}
                         >
                             <ListProduct data={productItems} />
                         </Slide>

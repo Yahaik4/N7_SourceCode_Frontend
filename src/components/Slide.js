@@ -5,10 +5,13 @@ import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft } from 'react-i
 import styles from './Slide.module.scss';
 
 function Slide(props) {
-    const slideShowItemLength = props.slideShowItemLength;
-    const translatePercent = props.translatePercent || 100;
-    const showHandleSlideBtn = props.handleSlideBtn;
-    const children = props.children;
+    const {
+        slideShowItemLength,
+        translatePercent = 100,
+        showHandleSlideBtn = true,
+        settingStyles = '',
+        children,
+    } = props;
 
     // passing props to props.children does not specify component
     // const renderChildren = () => {
@@ -39,6 +42,7 @@ function Slide(props) {
             resetTimeOut();
         };
     }, [slideIndex, slideShowItemLength]);
+    
     const handleNextSlide = () => {
         setSlideIndex((prevIndex) => (prevIndex === slideShowItemLength ? 0 : prevIndex + 1));
     };
@@ -56,7 +60,7 @@ function Slide(props) {
             <div className={clsx(styles.slideShow)} ref={slideShowRef} onScroll={handleOnScroll}>
                 <div
                     className={clsx(styles.slide)}
-                    style={{ transform: `translateX(-${slideIndex * translatePercent}%)` }}
+                    style={{ transform: `translateX(-${slideIndex * translatePercent}%)`, ...settingStyles }}
                 >
                     {/* {renderChildren()} */}
                     {children}

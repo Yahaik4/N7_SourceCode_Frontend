@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 // icons
 import { AiOutlineRight } from 'react-icons/ai';
@@ -10,6 +10,7 @@ import catalogItems from '../../constants/catalogItems';
 
 function Catalog(props) {
     const isDropdown = props.isDropDown || false;
+    const handleMouseOnModal = props.handleMouseOnModal || null;
 
     const [showCatalogChild, setShowCatalogChild] = useState(false);
     const [catalogItemHover, setCatalogItemHover] = useState(0);
@@ -21,6 +22,12 @@ function Catalog(props) {
     const handleUnshowCatalogChild = () => {
         setShowCatalogChild(false);
     };
+
+    useEffect(() => {
+        if (handleMouseOnModal != null) {
+            handleMouseOnModal(showCatalogChild);
+        }
+    }, [showCatalogChild, handleMouseOnModal]);
 
     useEffect(() => {
         setDataCatalogChild(catalogItems[catalogItemHover].data);
@@ -59,4 +66,4 @@ function Catalog(props) {
     );
 }
 
-export default Catalog;
+export default memo(Catalog);

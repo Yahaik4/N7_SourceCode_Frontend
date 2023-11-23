@@ -3,7 +3,7 @@
 
 :root {
     --primary-background-color: #d70018;
-    --layout-width-content: 1258px;
+    --layout-width-content: 1200px;
 
     --layout-header-height: 64px;
 
@@ -21,6 +21,7 @@ html {
 
 body {
     font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 1.6rem;
+    font-size: 1em;
     line-height: 1.5;
+    font-weight: 400;
 }
