@@ -25,7 +25,7 @@ function Catalog(props) {
 
     useEffect(() => {
         if (handleMouseOnModal != null) {
-            handleMouseOnModal(showCatalogChild);
+           handleMouseOnModal(showCatalogChild);
         }
     }, [showCatalogChild, handleMouseOnModal]);
 
@@ -37,7 +37,7 @@ function Catalog(props) {
         <div className={clsx(styles.wrapper, { [styles.modal]: isDropdown })}>
             <div
                 className={clsx(styles.container)}
-                onMouseEnter={handleShowCatalogChild}
+                onPointerEnter={handleShowCatalogChild}
                 onMouseLeave={handleUnshowCatalogChild}
             >
                 {catalogItems.map((item, index) => {

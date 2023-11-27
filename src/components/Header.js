@@ -18,7 +18,6 @@ function Header() {
     const [showCatalogModal, setShowCatalogModal] = useState(false);
     const [isMouseOnModal, setIsMouseOnModal] = useState(true);
 
-    console.log(showCatalogModal);
     const handleCloseModal = () => {
         if (isMouseOnModal) {
             setShowCatalogModal(isMouseOnModal);
@@ -26,11 +25,8 @@ function Header() {
     };
 
     const handleMouseOnModal = (data) => {
-        console.log(data);
         setIsMouseOnModal(data);
     };
-
-    console.log('header re-render');
 
     return (
         <>
@@ -102,11 +98,11 @@ function Header() {
                 </nav>
             </header>
 
-            {showCatalogModal && (
+            {showCatalogModal ? (
                 <div className={clsx(styles.catalogDropDownModal)} onPointerDown={handleCloseModal}>
                     <Catalog isDropDown={showCatalogModal} handleMouseOnModal={handleMouseOnModal} />
                 </div>
-            )}
+            ): null}
         </>
     );
 }
