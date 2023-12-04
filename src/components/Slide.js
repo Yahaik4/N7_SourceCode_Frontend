@@ -55,6 +55,7 @@ function Slide(props) {
         setSlideIndex(0);
         resetTimeOut();
     };
+    
     return (
         <div className={clsx(styles.container)}>
             <div className={clsx(styles.slideShow)} ref={slideShowRef} onScroll={handleOnScroll}>

@@ -42,7 +42,7 @@ function DropDownBtn(props) {
         selectedMenuItems.map((item) => {
             return data.push(menuData[item]);
         });
-        onSelectedFilterItem({ [key]: data }, dropDownBtnRef.current);
+        onSelectedFilterItem({ [key]: data });
     };
 
     return (

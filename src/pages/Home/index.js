@@ -5,7 +5,7 @@ import styles from './Home.module.scss';
 
 // Constant data
 import productItems from '../../constants/productItems';
-import producers from '../../constants/producer';
+import brands from '../../constants/brands';
 import categories from '../../constants/categories';
 import images from '../../assets/img';
 
@@ -37,11 +37,11 @@ function HomePage() {
                     })}
                 </div>
             </section>
-            {Object.keys(producers).map((key, index) => {
+            {Object.keys(brands).map((key, index) => {
                 return (
-                    <Section key={index} type={key} data={producers[key]}>
+                    <Section key={index} type={key} data={brands[key]}>
                         <Slide
-                            slideShowItemLength={productItems.length / 2 - 5}
+                            slideShowItemLength={Math.round(productItems.length / 2 - 5)}
                             translatePercent={20}
                             showHandleSlideBtn={true}
                             settingStyles={{

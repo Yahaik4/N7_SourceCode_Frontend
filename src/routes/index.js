@@ -11,7 +11,7 @@ import Products from '../pages/products';
 const publicRoutes = [
     { path: '/', component: HomePage, layout: Layout },
     { path: '/:products', component: Products, layout: Layout },
-    { path: '/:products/:producer', component: Products, layout: Layout },
+    { path: '/:products/:brand', component: Products, layout: Layout },
     { path: '/cart', component: CartPage, layout: Layout },
     { path: '/productDetails', component: ProductDetailsPage, layout: Layout },
     { path: '/searchResult', component: SearchPage, layout: Layout },

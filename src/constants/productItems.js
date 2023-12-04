@@ -357,6 +357,16 @@ const productItems = [
         peferential: [],
         img: images.products[7],
     },
+    {
+        name: 'Laptop Asus VivoBook Go 14 E1404FA-NK177W',
+        newPrice: 12990000,
+        oldPrice: 14490000,
+        updatePrice: 9990000,
+        percentOff: '10%',
+        rate: '0star',
+        peferential: [],
+        img: images.products[7],
+    },
 ];
 
 export default productItems;

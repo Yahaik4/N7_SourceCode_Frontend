@@ -18,7 +18,7 @@ function Section(props) {
         case 'PCs':
             title = 'MÀN HÌNH, MÁY TÍNH ĐỂ BÀN';
             break;
-        case 'ipads':
+        case 'tablets':
             title = 'MÁY TÍNH BẢNG';
             break;
         case 'audio':

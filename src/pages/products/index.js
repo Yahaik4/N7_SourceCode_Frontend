@@ -2,22 +2,25 @@ import { useParams, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
 
+// icon
 import { FaFilter, FaTruckFast, FaMoneyBill } from 'react-icons/fa6';
 import { FaSortAmountDown, FaSortAmountDownAlt, FaPercent, FaEye } from 'react-icons/fa';
 import { IoCloseCircle } from 'react-icons/io5';
 
 import styles from './Products.module.scss';
+// dummy data
 import images from '../../assets/img';
 import productItems from '../../constants/productItems';
 import filter from '../../constants/filter';
 
+// component
 import Slide from '../../components/Slide';
 import DropDownBtn from './DropDownBtn';
 import Button from './Button';
 import ListProduct from '../../components/ListProducts';
 
 function Products() {
-    let { products, producer } = useParams();
+    let { products, brand } = useParams();
     const productFilter = { 'Bộ lọc': [], 'Sẵn hàng': [], Giá: [], ...filter[products] };
 
     const [activeDropdown, setActiveDropdown] = useState(null);
@@ -29,7 +32,7 @@ function Products() {
         setActiveDropdown(data);
     };
 
-    const handleSelecteFilterItem = (data, ref) => {
+    const handleSelecteFilterItem = (data) => {
         if (!(Object.keys(data) in filteringList)) {
             setFilteringList({ ...data, ...filteringList });
         } else {
