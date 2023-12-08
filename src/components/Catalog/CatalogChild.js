@@ -6,7 +6,7 @@ import styles from './CatalogChild.module.scss';
 function CatalogChild(props) {
     const data = props.content;
     return (
-        <div className={clsx(styles.wrapper)}>
+        <div className={clsx(styles.wrapper)} onClick={(event) => event.stopPropagation()}>
             {data.map((item, index) => {
                 return (
                     <div key={index}>

@@ -10,21 +10,22 @@ function DropDownBtn(props) {
     const {
         IconComponent = MdKeyboardArrowDown,
         title = '',
-        active = '',
+        openDropdown = '',
         menuData = [],
+        filteringList,
         onSelectedFilter,
         onSelectedFilterItem,
     } = props;
 
-    const [openMenu, setOpenMenu] = useState(true);
+    const [forceCloseDropdown, setForceCloseDropdown] = useState(false);
     const [selectedMenuItems, setSelectedMenuItems] = useState([]);
     const dropDownBtnRef = useRef();
 
     const handleSelectFilter = (event) => {
         event.stopPropagation();
         onSelectedFilter(dropDownBtnRef.current);
-        if (active === dropDownBtnRef.current) {
-            setOpenMenu(!openMenu);
+        if (menuData.length === 0) {
+            onSelectedFilterItem({ [title]: [] });
         }
     };
 
@@ -35,6 +36,7 @@ function DropDownBtn(props) {
             setSelectedMenuItems(selectedMenuItems.filter((item) => item !== index));
         }
     };
+
 
     const handleSelectedFilterItem = () => {
         let data = [];
@@ -48,8 +50,12 @@ function DropDownBtn(props) {
     return (
         <div className={clsx(styles.wrapper)}>
             <div
-                className={clsx(styles.dropDownBtn, { [styles.active]: active === dropDownBtnRef.current && openMenu })}
-                onClick={(event) => handleSelectFilter(event)}
+                className={clsx(styles.dropDownBtn, {
+                    [styles.active]: openDropdown === dropDownBtnRef.current || filteringList.hasOwnProperty(title),
+                })}
+                onClick={(event) => {
+                    handleSelectFilter(event);
+                }}
                 ref={dropDownBtnRef}
             >
                 {IconComponent !== MdKeyboardArrowDown ? (
@@ -64,7 +70,7 @@ function DropDownBtn(props) {
                     </>
                 )}
             </div>
-            {active === dropDownBtnRef.current && menuData.length !== 0 && openMenu ? (
+            {openDropdown === dropDownBtnRef.current && menuData.length !== 0 && !forceCloseDropdown ? (
                 <div
                     className={clsx(styles.dropDownMenu)}
                     onClick={(event) => {
@@ -89,7 +95,7 @@ function DropDownBtn(props) {
 
                     {selectedMenuItems.length > 0 && (
                         <div className={styles.childBtnGroup}>
-                            <button className={styles.closeBtn} onClick={() => setOpenMenu(false)}>
+                            <button className={styles.closeBtn} onClick={() => setForceCloseDropdown(true)}>
                                 Đóng
                             </button>
                             <button className={styles.submitBtn} onClick={handleSelectedFilterItem}>

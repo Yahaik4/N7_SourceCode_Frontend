@@ -112,10 +112,11 @@ function Products() {
                                 key={index}
                                 IconComponent={IconComponent}
                                 title={key}
-                                active={activeDropdown}
+                                openDropdown={activeDropdown}
                                 menuData={productFilter[key]}
                                 onSelectedFilter={handleSelectedFilter}
                                 onSelectedFilterItem={handleSelecteFilterItem}
+                                filteringList={filteringList}
                             />
                         );
                     })}

@@ -9,8 +9,7 @@ import CatalogChild from './CatalogChild';
 import catalogItems from '../../constants/catalogItems';
 
 function Catalog(props) {
-    const isDropdown = props.isDropDown || false;
-    const handleMouseOnModal = props.handleMouseOnModal || null;
+    const {isDropDown = false} = props;
 
     const [showCatalogChild, setShowCatalogChild] = useState(false);
     const [catalogItemHover, setCatalogItemHover] = useState(0);
@@ -24,21 +23,16 @@ function Catalog(props) {
     };
 
     useEffect(() => {
-        if (handleMouseOnModal != null) {
-           handleMouseOnModal(showCatalogChild);
-        }
-    }, [showCatalogChild, handleMouseOnModal]);
-
-    useEffect(() => {
         setDataCatalogChild(catalogItems[catalogItemHover].data);
     }, [catalogItemHover]);
 
     return (
-        <div className={clsx(styles.wrapper, { [styles.modal]: isDropdown })}>
+        <div className={clsx(styles.wrapper, { [styles.modal]: isDropDown })}>
             <div
                 className={clsx(styles.container)}
                 onPointerEnter={handleShowCatalogChild}
                 onMouseLeave={handleUnshowCatalogChild}
+                onClick={(event) => event.stopPropagation()}
             >
                 {catalogItems.map((item, index) => {
                     const Icon = item.icon;

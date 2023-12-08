@@ -6,7 +6,7 @@
     &.modal {
         position: absolute;
         left: calc(calc(100% - var(--layout-width-content)) / 2);
-        top: calc(var(--layout-header-height) + 10px);
+        top: calc(var(--layout-header-height) + 35px);
         max-height: 410px;
         // z-index: 989;
     }

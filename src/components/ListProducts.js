@@ -23,9 +23,9 @@ function ListProducts(props) {
                 if (item.oldPrice > 0 && item.percentOff != null) {
                     isSaleOff = true;
                 }
-
+                
                 return (
-                    <Link to="/" key={index} className={clsx(styles.productItem)}>
+                    <Link to={item.href} key={index} className={clsx(styles.productItem)}>
                         <div className={clsx(styles.percentOffRibbon, { [styles.active]: isSaleOff })}>
                             <p className={clsx(styles.percentOffDetail)}>Giảm {item.percentOff}</p>
                         </div>

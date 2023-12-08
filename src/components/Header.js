@@ -20,19 +20,10 @@ function Header() {
     const location = useLocation();
     const pathnames = location.pathname.split('/').filter((x) => x);
 
-    console.log(pathnames);
-
     const [showCatalogModal, setShowCatalogModal] = useState(false);
-    const [isMouseOnModal, setIsMouseOnModal] = useState(true);
 
-    const handleCloseModal = () => {
-        if (isMouseOnModal) {
-            setShowCatalogModal(isMouseOnModal);
-        }
-    };
-
-    const handleMouseOnModal = (data) => {
-        setIsMouseOnModal(data);
+    const handleShowCatalog = () => {
+        setShowCatalogModal(!showCatalogModal);
     };
 
     return (
@@ -44,7 +35,7 @@ function Header() {
                     </Link>
                     <div
                         className={clsx(styles.menuButton, styles.btn)}
-                        onClick={() => setShowCatalogModal(!showCatalogModal)}
+                        onClick={handleShowCatalog}
                     >
                         <LuMenuSquare className={clsx(styles.icon)} /> Danh mục
                     </div>
@@ -171,8 +162,8 @@ function Header() {
             ) : null}
 
             {showCatalogModal ? (
-                <div className={clsx(styles.catalogDropDownModal)} onPointerDown={handleCloseModal}>
-                    <Catalog isDropDown={showCatalogModal} handleMouseOnModal={handleMouseOnModal} />
+                <div className={clsx(styles.catalogDropDownModal)} onClick={handleShowCatalog}>
+                    <Catalog isDropDown={showCatalogModal}/>
                 </div>
             ) : null}
         </>
