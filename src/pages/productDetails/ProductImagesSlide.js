@@ -9,7 +9,6 @@ import styles from './ProductImagesSlide.module.scss';
 function ProductImagesSlide(props) {
     const { slideImages, thumbnailData } = props;
 
-    console.log(thumbnailData);
     const [slideIndex, setSlideIndex] = useState(0);
 
     const timeOutRef = useRef(null);
