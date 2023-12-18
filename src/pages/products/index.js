@@ -17,7 +17,7 @@ import filter from '../../constants/filter';
 import Slide from '../../components/Slide';
 import DropDownBtn from './DropDownBtn';
 import Button from './Button';
-import ListProduct from '../../components/ListProducts';
+import ProductCard from '../../components/ProductCard';
 
 function Products() {
     let { products, brand } = useParams();
@@ -178,7 +178,9 @@ function Products() {
                 </div>
             </div>
             <div className={clsx(styles.products)}>
-                <ListProduct data={productItems} />
+            {productItems.map((item, index) => {
+                return <ProductCard item={item} key={index} />;
+            })}
             </div>
         </div>
     );

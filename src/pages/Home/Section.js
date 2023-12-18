@@ -49,7 +49,7 @@ function Section(props) {
     return (
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.header)}>
-                <h2>{title}</h2>
+                <h1>{title}</h1>
                 <div className={clsx(styles.producers)}>
                     {producers.map((item, index) => {
                         return (

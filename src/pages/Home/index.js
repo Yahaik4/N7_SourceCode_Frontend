@@ -12,10 +12,11 @@ import images from '../../assets/img';
 // Component
 import Catalog from '../../components/Catalog';
 import BannerSlide from './BannerSlide';
-import ListProduct from '../../components/ListProducts';
 import Section from './Section';
 import Slide from '../../components/Slide';
 import Categories from './Categories';
+import ProductCard from '../../components/ProductCard';
+import SlideScrollable from '../../components/SlideScrollable';
 
 function HomePage() {
     return (
@@ -40,10 +41,7 @@ function HomePage() {
             {Object.keys(brands).map((key, index) => {
                 return (
                     <Section key={index} type={key} data={brands[key]}>
-                        <Slide
-                            slideShowItemLength={Math.round(productItems.length / 2 - 5)}
-                            translatePercent={20}
-                            showHandleSlideBtn={true}
+                        <SlideScrollable
                             settingStyles={{
                                 maxHeight: 926,
                                 display: 'flex',
@@ -52,8 +50,10 @@ function HomePage() {
                                 padding: '0 5px',
                             }}
                         >
-                            <ListProduct data={productItems} />
-                        </Slide>
+                            {productItems.map((item, index) => {
+                                return <ProductCard item={item} key={index} />;
+                            })}
+                        </SlideScrollable>
                     </Section>
                 );
             })}
