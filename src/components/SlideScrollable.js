@@ -3,14 +3,17 @@ import { useEffect, useRef, useState } from 'react';
 
 import styles from './Slide.module.scss';
 import { MdOutlineKeyboardArrowRight, MdOutlineKeyboardArrowLeft } from 'react-icons/md';
-import productItems from '../constants/productItems';
 
 function SlideScrollable(props) {
     const {
-        slideShowItemLength = Math.round(productItems.length / 2 - 5),
-        translatePercent = 20,
-        showHandleSlideBtn = true,
-        settingStyles = '',
+        slideShowItemLength = 0,
+        settingSlideLayout = '',
+        translatePercent = 100,
+        forceTranslateTo = -1,
+        autoTranslate = true,
+        scrollable = false,
+        showBtn = true,
+        updateThumbnailIndex = null,
         children,
     } = props;
 
@@ -25,18 +28,32 @@ function SlideScrollable(props) {
     }
 
     useEffect(() => {
-        resetTimeOut();
-        timeOutRef.current = setTimeout(() => {
-            setSlideIndex((prevIndex) => (prevIndex === slideShowItemLength ? 0 : prevIndex + 1));
-        }, 5000);
-        return () => {
+        if (autoTranslate) {
             resetTimeOut();
-        };
-    }, [slideIndex, slideShowItemLength]);
+            timeOutRef.current = setTimeout(() => {
+                setSlideIndex((prevIndex) => (prevIndex === slideShowItemLength ? 0 : prevIndex + 1));
+            }, 3000);
+            return () => {
+                resetTimeOut();
+            };
+        }
+    }, [slideIndex, slideShowItemLength, autoTranslate]);
 
     useEffect(() => {
-        slideShowRef.current.scroll({ left: `${slideIndex * 240}`, behavior: 'smooth' });
-    }, [slideIndex]);
+        slideShowRef.current.scroll({
+            left: `${(slideIndex * slideShowRef.current.clientWidth * translatePercent) / 100}`,
+            behavior: 'smooth',
+        });
+        if(updateThumbnailIndex !== null){
+            updateThumbnailIndex(slideIndex)
+        }
+    }, [slideIndex, translatePercent, updateThumbnailIndex]);
+
+    useEffect(() => {
+        if (forceTranslateTo !== -1) {
+            setSlideIndex(forceTranslateTo);
+        }
+    }, [forceTranslateTo]);
 
     const handleNextSlide = () => {
         setSlideIndex((prevIndex) => (prevIndex === slideShowItemLength ? 0 : prevIndex + 1));
@@ -47,32 +64,27 @@ function SlideScrollable(props) {
     };
 
     return (
-        <div className={clsx(styles.container)}>
-            <div className={clsx(styles.slideShow)} ref={slideShowRef}>
-                <div
-                    className={clsx(styles.slide)}
-                    style={{
-                        // transform: `translateX(-${slideIndex * translatePercent}%)`,
-                        ...settingStyles,
-                    }}
-                >
-                    {children}
+        <>
+            <div className={clsx(styles.container, { [styles.activeHover]: showBtn })}>
+                <div className={clsx(styles.slideShow, { [styles.scrollable]: scrollable })} ref={slideShowRef}>
+                    <div
+                        className={clsx(styles.slides)}
+                        style={{
+                            ...settingSlideLayout,
+                        }}
+                    >
+                        {children}
+                    </div>
+                </div>
+
+                <div className={clsx(styles.nextButton)} onClick={handleNextSlide}>
+                    <MdOutlineKeyboardArrowRight className={clsx(styles.btnIcon)} />
+                </div>
+                <div className={clsx(styles.prevButton)} onClick={handlePrevSlide}>
+                    <MdOutlineKeyboardArrowLeft className={clsx(styles.btnIcon)} />
                 </div>
             </div>
-
-            <div
-                className={clsx(styles.nextButton, { [styles.disabled]: !showHandleSlideBtn })}
-                onClick={handleNextSlide}
-            >
-                <MdOutlineKeyboardArrowRight className={clsx(styles.btnIcon)} />
-            </div>
-            <div
-                className={clsx(styles.prevButton, { [styles.disabled]: !showHandleSlideBtn })}
-                onClick={handlePrevSlide}
-            >
-                <MdOutlineKeyboardArrowLeft className={clsx(styles.btnIcon)} />
-            </div>
-        </div>
+        </>
     );
 }
 

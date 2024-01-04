@@ -14,7 +14,7 @@ import productItems from '../../constants/productItems';
 import filter from '../../constants/filter';
 
 // component
-import Slide from '../../components/Slide';
+import SlideScrollable from '../../components/SlideScrollable';
 import DropDownBtn from './DropDownBtn';
 import Button from './Button';
 import ProductCard from '../../components/ProductCard';
@@ -57,11 +57,12 @@ function Products() {
         <div className={clsx(styles.wrapper)} onClick={() => setActiveDropdown(wrapperRef)} ref={wrapperRef}>
             <div className={clsx(styles.bannerSlider)}>
                 <div className={clsx(styles.banner)}>
-                    <Slide
-                        slideShowItemLength={images.banners.productsPageBanner.length - 1}
-                        translatePercent={100 / images.banners.productsPageBanner.length}
-                        showHandleSlideBtn={true}
-                        settingStyles={{ maxHeight: 104, display: 'flex' }}
+                    <SlideScrollable
+                        slideShowItemLength={images.banners.productsPageBanner.length}
+                        translatePercent={100}
+                        settingSlideLayout={{
+                            display: 'flex',
+                        }}
                     >
                         {images.banners.productsPageBanner.map((banner, index) => {
                             return (
@@ -70,14 +71,15 @@ function Products() {
                                 </Link>
                             );
                         })}
-                    </Slide>
+                    </SlideScrollable>
                 </div>
                 <div className={clsx(styles.banner)}>
-                    <Slide
-                        slideShowItemLength={images.banners.productsPageBanner.length - 1}
-                        translatePercent={100 / images.banners.productsPageBanner.length}
-                        showHandleSlideBtn={true}
-                        settingStyles={{ maxHeight: 104, display: 'flex' }}
+                    <SlideScrollable
+                        slideShowItemLength={images.banners.productsPageBanner.length}
+                        translatePercent={100}
+                        settingSlideLayout={{
+                            display: 'flex',
+                        }}
                     >
                         {images.banners.productsPageBanner.map((banner, index) => {
                             return (
@@ -86,7 +88,7 @@ function Products() {
                                 </Link>
                             );
                         })}
-                    </Slide>
+                    </SlideScrollable>
                 </div>
             </div>
             <div className={clsx(styles.filter)}>
@@ -178,9 +180,9 @@ function Products() {
                 </div>
             </div>
             <div className={clsx(styles.products)}>
-            {productItems.map((item, index) => {
-                return <ProductCard item={item} key={index} />;
-            })}
+                {productItems.map((item, index) => {
+                    return <ProductCard item={item} key={index} />;
+                })}
             </div>
         </div>
     );

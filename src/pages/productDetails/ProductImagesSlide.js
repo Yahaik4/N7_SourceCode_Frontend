@@ -46,7 +46,7 @@ function ProductImagesSlide(props) {
                         style={{ transform: `translate3d(${-slideIndex * 100}%,0,0)` }}
                     >
                         {slideImages.map((slide, index) => {
-                            return <img key={index} src={slide} alt={''} />;
+                            return <img key={index} src={slide} alt={''}/>;
                         })}
                     </div>
                     <div className={clsx(styles.nextButton)} onClick={handleNextSlide}>

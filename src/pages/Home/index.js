@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './Home.module.scss';
 
-// Constant data
+// dummy data
 import productItems from '../../constants/productItems';
 import brands from '../../constants/brands';
 import categories from '../../constants/categories';
@@ -13,7 +13,6 @@ import images from '../../assets/img';
 import Catalog from '../../components/Catalog';
 import BannerSlide from './BannerSlide';
 import Section from './Section';
-import Slide from '../../components/Slide';
 import Categories from './Categories';
 import ProductCard from '../../components/ProductCard';
 import SlideScrollable from '../../components/SlideScrollable';
@@ -42,7 +41,10 @@ function HomePage() {
                 return (
                     <Section key={index} type={key} data={brands[key]}>
                         <SlideScrollable
-                            settingStyles={{
+                            slideShowItemLength={Math.round(productItems.length / 2 - 5)}
+                            translatePercent={20}
+                            scrollable={true}
+                            settingSlideLayout={{
                                 maxHeight: 926,
                                 display: 'flex',
                                 flexFlow: 'column wrap',

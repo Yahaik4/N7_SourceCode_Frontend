@@ -1,4 +1,4 @@
-.container{
+.container {
     width: 100%;
     height: fit-content;
     position: relative;
@@ -43,26 +43,27 @@
         }
     }
 
-    &:hover .nextButton,
-    &:hover .prevButton {
+    &.activeHover:hover .nextButton,
+    &.activeHover:hover .prevButton {
         display: flex;
         cursor: pointer;
     }
 }
 
 .slideShow {
-    width: fit-content;
-    position: relative;
     overflow: hidden;
-
-    overflow-x: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    &::-webkit-scrollbar {
-        display: none;
+    
+    &.scrollable {
+        position: relative;
+        overflow-x: scroll;
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 
-    .slide {
+    .slides {
         // width: 100%;
         // overflow-x: scroll;
         // display: grid;
@@ -82,7 +83,7 @@
         // flex-flow: column wrap;
         // padding: 0 5px;
         // gap: 10px;
-        
+
         transition: ease 1000ms;
     }
 }

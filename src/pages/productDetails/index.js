@@ -2,21 +2,27 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import clsx from 'clsx';
 
+// icons
 import { AiFillStar } from 'react-icons/ai';
 import { MdCurrencyExchange } from 'react-icons/md';
 import { FaGift, FaCartPlus } from 'react-icons/fa6';
 
+// ultilities
 import { formatCash } from '../../utils';
 import styles from './ProductDetails.module.scss';
 
-import productItems from '../../constants/productItems';
-import ProductImagesSlide from './ProductImagesSlide';
+// components
 import Modal from './Modal';
+import SlideScrollable from '../../components/SlideScrollable';
+
+// dummy data
+import productItems from '../../constants/productItems';
 
 function ProductDetailsPage() {
     // const { products, brand, productDetails } = useParams();
     const location = useLocation();
 
+    // start dummy data
     const product = productItems.filter((item) => {
         return item.href.localeCompare(location.pathname) === 0;
     })[0];
@@ -25,9 +31,11 @@ function ProductDetailsPage() {
     for (let index = 0; index < 15; index++) {
         indents.push(product.img);
     }
+    // end dummy data
 
     const [selectPrice, setSelectPrice] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [slideIndex, setSlideIndex] = useState(0);
 
     const handleOnClickPrice = () => {
         setSelectPrice(!selectPrice);
@@ -39,6 +47,10 @@ function ProductDetailsPage() {
         } else {
             setShowModal(!showModal);
         }
+    };
+
+    const handleUpdateSlideIndex = (index) => {
+        setSlideIndex(index);
     };
 
     return (
@@ -59,9 +71,40 @@ function ProductDetailsPage() {
 
                 <div className={clsx(styles.container)}>
                     <div className={clsx(styles.leftBoxDetails)}>
-                        <div className={clsx(styles.productImgSlide)}>
-                            <ProductImagesSlide slideImages={indents} thumbnailData={indents} />
-                        </div>
+                        <SlideScrollable
+                            slideShowItemLength={indents.length}
+                            translatePercent={50}
+                            autoTranslate={false}
+                            forceTranslateTo={slideIndex}
+                            updateThumbnailIndex={handleUpdateSlideIndex}
+                            settingSlideLayout={{
+                                display: 'flex',
+                                maxHeight: '400',
+                            }}
+                        >
+                            {indents.map((slide, index) => {
+                                return <img key={index} src={slide} alt={''} />;
+                            })}
+                        </SlideScrollable>
+
+                        <SlideScrollable
+                            settingSlideLayout={{ display: 'flex', gap: 10 }}
+                            autoTranslate={false}
+                            showBtn={false}
+                            scrollable={true}
+                        >
+                            {indents.map((slide, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className={clsx(styles.slideContent, { [styles.active]: index === slideIndex })}
+                                        onClick={() => setSlideIndex(index)}
+                                    >
+                                        <img src={slide} alt={''} height={50} width={50} />
+                                    </div>
+                                );
+                            })}
+                        </SlideScrollable>
                     </div>
                     <div className={clsx(styles.rigthBoxDetail)}>
                         <div className={clsx(styles.prices)}>
