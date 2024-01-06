@@ -17,7 +17,7 @@ function BannerSlide() {
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.imgSection)}>
                 <SlideScrollable
-                    slideShowItemLength={slideShowItems.length}
+                    slideShowItemLength={slideShowItems.length-1}
                     translatePercent={100}
                     forceTranslateTo={slideIndex}
                     updateThumbnailIndex={handleUpdateSlideIndex}
@@ -34,7 +34,7 @@ function BannerSlide() {
             <div className={clsx(styles.contentsSection)}>
                 <div className={clsx(styles.slideContents)}>
                     <SlideScrollable
-                        slideShowItemLength={slideShowItems.length}
+                        slideShowItemLength={slideShowItems.length-1}
                         translatePercent={20}
                         showBtn={false}
                         scrollable={true}

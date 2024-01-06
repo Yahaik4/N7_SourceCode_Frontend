@@ -1,29 +1,48 @@
-import { useEffect, useRef } from 'react';
-import ProductCard from '../components/ProductCard';
+import { useEffect, useRef, useState } from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-import productItems from '../constants/productItems';
-import SlideScrollable from '../components/SlideScrollable';
+import AlertMsg from '../components/AlertMsg';
+import styles from './Cart.module.scss';
+import { createRef } from 'react';
+import clsx from 'clsx';
 
 function CartPage(props) {
-    const productsRef = useRef([]);
-    useEffect(() => {
-        console.log(productsRef.current);
-    })
-    
+    const [alertMsgs, setAlertMsgs] = useState([]);
+    const msgsRef = useRef([]);
+
+    const handleAddMsgs = (type, message) => {
+        setAlertMsgs([...alertMsgs, {  type, message, showAlertMsg: true }]);
+    };
+
+    const onCloseAlertMsg = (ref) => {
+        const index = msgsRef.current.findIndex((item) => item.current === ref);
+        setAlertMsgs([...alertMsgs, alertMsgs[index].showAlertMsg = false]);
+        console.log(index);
+    };
+
     return (
-        <SlideScrollable
-            settingStyles={{
-                maxHeight: 926,
-                display: 'flex',
-                flexFlow: 'column wrap',
-                gap: 10,
-                padding: '0 5px',
-            }}
-        >
-            {productItems.map((item, index) => {
-                return <ProductCard item={item} key={index} ref={(el) => (productsRef.current[index] = el)} />;
-            })}
-        </SlideScrollable>
+        <div>
+            <button onClick={() => handleAddMsgs('Primary', 'Primary Msg')}>Primary Msg</button>
+            <button onClick={() => handleAddMsgs('Success', 'Success Msg')}>Success Msg</button>
+            <button onClick={() => handleAddMsgs('Warning', 'Warning Msg')}>Warning Msg</button>
+            <button onClick={() => handleAddMsgs('Fail', 'Fail Msg')}>Fail Msg</button>
+
+            <TransitionGroup className={clsx(styles.alertMsgsGroup)}>
+                {alertMsgs.map((msg, index) => {
+                    msgsRef.current[index] = createRef();
+                    return (
+                        <AlertMsg
+                            key={index}
+                            ref={msgsRef.current[index]}
+                            message={msg.message}
+                            showAlertMsg={msg.showAlertMsg}
+                            onClose={onCloseAlertMsg}
+                            // style={{ marginTop: `${index * 70}px` }}
+                        />
+                    );
+                })}
+            </TransitionGroup>
+        </div>
     );
 }
 

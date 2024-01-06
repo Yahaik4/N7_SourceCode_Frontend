@@ -2,14 +2,12 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import clsx from 'clsx';
 
-// icons
+// ultilities & styles
+import { formatCash } from '../../utils';
+import styles from './ProductDetails.module.scss';
 import { AiFillStar } from 'react-icons/ai';
 import { MdCurrencyExchange } from 'react-icons/md';
 import { FaGift, FaCartPlus } from 'react-icons/fa6';
-
-// ultilities
-import { formatCash } from '../../utils';
-import styles from './ProductDetails.module.scss';
 
 // components
 import Modal from './Modal';
