@@ -4,6 +4,7 @@ import clsx from 'clsx';
 
 // ultilities & styles
 import { formatCash } from '../../utils';
+import { STATE_SUCCESS } from '../../constants';
 import styles from './ProductDetails.module.scss';
 import { AiFillStar } from 'react-icons/ai';
 import { MdCurrencyExchange } from 'react-icons/md';
@@ -12,6 +13,7 @@ import { FaGift, FaCartPlus } from 'react-icons/fa6';
 // components
 import Modal from './Modal';
 import SlideScrollable from '../../components/SlideScrollable';
+import AlertMsg from '../../components/AlertMsg';
 
 // dummy data
 import productItems from '../../constants/productItems';
@@ -34,6 +36,7 @@ function ProductDetailsPage() {
     const [selectPrice, setSelectPrice] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
+    const [addAlertMsg, setAddAlertMsg] = useState();
 
     const handleOnClickPrice = () => {
         setSelectPrice(!selectPrice);
@@ -147,7 +150,12 @@ function ProductDetailsPage() {
                                     <p>Mua ngay</p>
                                     <p>(Giao nhanh tử 2 giờ hoặc nhận tại cửa hàng)</p>
                                 </div>
-                                <div className={clsx(styles.btn)}>
+                                <div
+                                    className={clsx(styles.btn)}
+                                    onClick={() =>
+                                        setAddAlertMsg({ type: STATE_SUCCESS, msg: 'Thêm vào giỏ hàng thành công' })
+                                    }
+                                >
                                     <FaCartPlus />
                                     <p>Thêm vào giỏ hàng</p>
                                 </div>
@@ -201,6 +209,7 @@ function ProductDetailsPage() {
                     </div>
                 </Modal>
             ) : null}
+            {addAlertMsg && <AlertMsg message={addAlertMsg} />}
         </>
     );
 }

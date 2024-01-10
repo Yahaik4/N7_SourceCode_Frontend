@@ -28,15 +28,15 @@ function Products() {
     const [filteringList, setFilteringList] = useState({ 'Bỏ chọn tất cả': [] });
     const wrapperRef = useRef();
 
-    const handleSelectedFilter = (data) => {
-        setActiveDropdown(data);
+    const handleSelectedFilter = (selectedFilter) => {
+        setActiveDropdown(selectedFilter);
     };
 
-    const handleSelecteFilterItem = (data) => {
-        if (!(Object.keys(data) in filteringList)) {
-            setFilteringList({ ...data, ...filteringList });
+    const handleSelecteFilterItem = (selecteFilterItems) => {
+        if (!(Object.keys(selecteFilterItems) in filteringList)) {
+            setFilteringList({ ...selecteFilterItems, ...filteringList });
         } else {
-            setFilteringList({ ...filteringList, ...data });
+            setFilteringList({ ...filteringList, ...selecteFilterItems });
         }
     };
 
@@ -49,8 +49,8 @@ function Products() {
         }
     };
 
-    const handleSelecteSortBtn = (data) => {
-        setActiveSortBtn(data);
+    const handleSelecteSortBtn = (btnRef) => {
+        setActiveSortBtn(btnRef);
     };
 
     return (
