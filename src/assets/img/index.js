@@ -14,6 +14,7 @@ const images = {
     products: productImgs,
     categories: { accessories: accessoriesImg, pcComponents: pcComponentsImg, secondHands: secondHandsImg },
     techNews: techNewsImg,
+    cartEmpty: require('./Cart-empty-v2.webp'),
 };
 export { paymentIcons, webIcons };
 export default images;

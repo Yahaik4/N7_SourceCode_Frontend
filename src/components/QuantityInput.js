@@ -4,18 +4,18 @@ import styles from './QuantityInput.module.scss';
 import { useEffect, useState } from 'react';
 
 function QuantityInput(props) {
-    const { onChange } = props;
+    const { onChange, id } = props;
     const [quantity, setQuantity] = useState(1);
     const handleIncrease = () => {
         setQuantity((prev) => (prev += 1));
     };
     const handleDecrease = () => {
-        setQuantity((prev) => (prev === 0 ? (prev = 0) : (prev -= 1)));
+        setQuantity((prev) => (prev === 1 ? (prev = 1) : (prev -= 1)));
     };
     
     useEffect(() => {
-        onChange(quantity);
-    }, [quantity, onChange]);
+        onChange(quantity, id);
+    }, [quantity]);
     return (
         <div className={clsx(styles.Input)}>
             <button className={clsx(styles.count, styles.minus)} type="button" onClick={handleDecrease}>
