@@ -17,3 +17,7 @@ export function formatCash(numb) {
             }) + '₫'
     );
 }
+
+export function lowercaseFirstLetter(inputString) {
+    return inputString.charAt(0).toLowerCase() + inputString.slice(1);
+}

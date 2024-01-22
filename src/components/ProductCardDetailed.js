@@ -5,10 +5,10 @@ import { useState, forwardRef } from 'react';
 // icon
 import { AiFillStar, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
-import styles from './ProductCard.module.scss';
+import styles from './ProductCardDetailed.module.scss';
 import { formatCash } from '../utils';
 
-const ProductCard = forwardRef((props, ref) => {
+const ProductCardDetailed = forwardRef((props, ref) => {
     const { item = null } = props;
     const [isHoverWishListBtn, setIsHoverWishListBtn] = useState(false);
 
@@ -75,4 +75,4 @@ const ProductCard = forwardRef((props, ref) => {
     );
 });
 
-export default ProductCard;
+export default ProductCardDetailed;

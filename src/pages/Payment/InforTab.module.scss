@@ -1,0 +1,106 @@
+.title {
+    margin-top: 30px;
+}
+
+.form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .formGroup {
+        display: flex;
+        gap: 20px;
+    }
+}
+
+.blockWrapper {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid rgba(145, 158, 171, 0.239);
+    .buttonDropdown {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        padding: 1px 6px;
+        cursor: pointer;
+        color: #919eab;
+    }
+
+    .deliveriTabs {
+        display: flex;
+        align-items: center;
+        background-color: white;
+
+        .deliveriTab {
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            padding: 15px 0 15px 20px;
+            font-size: 15px;
+            color: #919eab;
+            flex-basis: 50%;
+            cursor: pointer;
+
+            &.active {
+                background-color: white;
+            }
+        }
+    }
+}
+
+.listProducts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .productItem {
+        display: flex;
+        padding: 12px;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid rgba(145, 158, 171, 0.24);
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .info {
+            width: 100%;
+            margin-left: 10px;
+            & > div {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+                font-size: 16px;
+
+                .name {
+                    width: 70%;
+                    text-decoration: none;
+                    color: black;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                }
+                .icon {
+                    cursor: pointer;
+                }
+                .newPrice {
+                    color: var(--primary-background-color);
+                    font-weight: 500;
+                    margin: auto;
+                }
+                .oldPrice {
+                    text-decoration: line-through;
+                    margin-left: 3px;
+                    font-size: 13px;
+                    color: #707070;
+                }
+            }
+        }
+    }
+}

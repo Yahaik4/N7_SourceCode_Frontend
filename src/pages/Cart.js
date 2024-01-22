@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
-import { v4 as uuidv4 } from 'uuid';
 
 import styles from './Cart.module.scss';
 import { formatCash } from './../utils';
@@ -72,7 +71,6 @@ function CartPage(props) {
         }
     }, [selectedItems, fetchedDummyData]);
 
-    console.log(images.cartEmpty);
     return fetchedDummyData.length > 0 ? (
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.container)}>
@@ -128,7 +126,11 @@ function CartPage(props) {
                                     <div>
                                         <div>
                                             <span className={clsx(styles.newPrice)}>{formatCash(item.newPrice)}</span>{' '}
-                                            <span className={clsx(styles.oldPrice)}>{formatCash(item.oldPrice)}</span>
+                                            {item.oldPrice !== 0 ? (
+                                                <span className={clsx(styles.oldPrice)}>
+                                                    {formatCash(item.oldPrice)}
+                                                </span>
+                                            ) : null}
                                         </div>
                                         <QuantityInput id={item.id} onChange={handleQuantityOnChange} />
                                     </div>
@@ -141,9 +143,12 @@ function CartPage(props) {
                     <div className={clsx(styles.priceTemp)}>
                         Tạm tính: <p className={clsx(styles.totalPrice)}>{formatCash(totalPrice)}</p>
                     </div>
-                    <div className={clsx(styles.button, { [styles.disable]: selectedItems.length === 0 })}>
+                    <Link
+                        to="/payment"
+                        className={clsx(styles.button, { [styles.disable]: selectedItems.length === 0 })}
+                    >
                         Mua Ngay
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>

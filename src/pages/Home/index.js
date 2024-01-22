@@ -14,7 +14,7 @@ import Catalog from '../../components/Catalog';
 import BannerSlide from './BannerSlide';
 import Section from './Section';
 import Categories from './Categories';
-import ProductCard from '../../components/ProductCard';
+import ProductCardDetailed from '../../components/ProductCardDetailed';
 import SlideScrollable from '../../components/SlideScrollable';
 
 function HomePage() {
@@ -53,7 +53,7 @@ function HomePage() {
                             }}
                         >
                             {productItems.map((item, index) => {
-                                return <ProductCard item={item} key={index} />;
+                                return <ProductCardDetailed item={item} key={index} />;
                             })}
                         </SlideScrollable>
                     </Section>

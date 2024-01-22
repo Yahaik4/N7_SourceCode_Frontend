@@ -17,7 +17,7 @@ import filter from '../../constants/filter';
 import SlideScrollable from '../../components/SlideScrollable';
 import DropDownBtn from './DropDownBtn';
 import Button from './Button';
-import ProductCard from '../../components/ProductCard';
+import ProductCardDetailed from '../../components/ProductCardDetailed';
 
 function Products() {
     let { products, brand } = useParams();
@@ -181,7 +181,7 @@ function Products() {
             </div>
             <div className={clsx(styles.products)}>
                 {productItems.map((item, index) => {
-                    return <ProductCard item={item} key={index} />;
+                    return <ProductCardDetailed item={item} key={index} />;
                 })}
             </div>
         </div>
