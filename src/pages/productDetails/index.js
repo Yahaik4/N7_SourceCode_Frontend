@@ -3,7 +3,7 @@ import { useState } from 'react';
 import clsx from 'clsx';
 
 // ultilities & styles
-import { formatCash } from '../../utils';
+import { formatCash } from '../../utils/helpers';
 import { STATE_SUCCESS } from '../../constants';
 import styles from './ProductDetails.module.scss';
 import { AiFillStar } from 'react-icons/ai';

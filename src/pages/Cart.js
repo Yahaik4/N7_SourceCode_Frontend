@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
 import styles from './Cart.module.scss';
-import { formatCash } from './../utils';
+import { formatCash } from './../utils/helpers';
 import { IoArrowBack, IoTrashOutline } from 'react-icons/io5';
 import images from '../assets/img';
 

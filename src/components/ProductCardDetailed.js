@@ -6,7 +6,7 @@ import { useState, forwardRef } from 'react';
 import { AiFillStar, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 import styles from './ProductCardDetailed.module.scss';
-import { formatCash } from '../utils';
+import { formatCash } from '../utils/helpers';
 
 const ProductCardDetailed = forwardRef((props, ref) => {
     const { item = null } = props;

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 import styles from './Section.module.scss';
-import { removeAccents } from '../../utils';
+import { removeAccents } from '../../utils/helpers';
 
 function Section(props) {
     const { children, type } = props;

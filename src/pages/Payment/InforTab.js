@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import styles from './InforTab.module.scss';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
-import { formatCash } from '../../utils';
+import { formatCash } from '../../utils/helpers';
 
 import Input from '../../components/Form/Input';
 import DeliveryOptiosForm from './DeliveryOptionsForm';

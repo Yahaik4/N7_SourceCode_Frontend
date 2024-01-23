@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useRef, useState } from 'react';
 
-import useDocumentClick from '../CustomHook/useDocumentClick';
+import useDocumentClick from '../../hooks/useDocumentClick';
 
 import styles from './Input.module.scss';
 

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import images from '../assets/img';
-import { removeAccents } from '../utils';
+import { removeAccents } from '../utils/helpers';
 
 const productItems = [
     {

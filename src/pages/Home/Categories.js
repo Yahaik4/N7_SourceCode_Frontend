@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 
 import styles from './Categories.module.scss';
-import { removeAccents } from '../../utils';
+import { removeAccents } from '../../utils/helpers';
 
 function Categories(props) {
     const {data, type} = props;

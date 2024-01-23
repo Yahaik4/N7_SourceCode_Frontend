@@ -34,7 +34,7 @@ function DeliveryOptiosForm(props) {
     };
 
     useEffect(() => {
-        type === 'pickup' ? onChange(pickupAddress) : onChange(deliveryAddress);
+        type === 'pickup' ? onChange({ pickup: pickupAddress }) : onChange({ delivery: deliveryAddress });
     }, [pickupAddress, deliveryAddress, type]);
 
     return (

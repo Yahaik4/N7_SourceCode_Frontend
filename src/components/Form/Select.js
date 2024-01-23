@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './Select.module.scss';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
-import useDocumentClick from '../CustomHook/useDocumentClick';
+import useDocumentClick from '../../hooks/useDocumentClick';
 
 function Select(props) {
     const { id, label, placeHolder, selectValues, value, onSelect } = props;

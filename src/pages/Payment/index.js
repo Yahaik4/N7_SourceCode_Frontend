@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 
 import styles from './Payment.module.scss';
 import { IoArrowBack } from 'react-icons/io5';
-import { formatCash, lowercaseFirstLetter } from '../../utils';
+import { formatCash, lowercaseFirstLetter } from '../../utils/helpers';
 import { STATE_FAIL, STATE_SUCCESS } from '../../constants';
 
 import InforTab from './InforTab';
 import AlertMsg from '../../components/AlertMsg';
-import useFormValidation from '../../components/CustomHook/useFormValidation';
+import useFormValidation from '../../hooks/useFormValidation';
 // dummy data
 import productItems from '../../constants/productItems';
 
@@ -19,12 +19,19 @@ function Payment(props) {
     // end dummy data
 
     const [addAlertMsg, setAddAlertMsg] = useState();
-    const [deliveryInfor, setDeliveriInfor] = useState({});
-    const [customerInfor, setCustomerInfor] = useState({
+    const [paymentInfor, setPaymentInfor] = useState({
         name: '',
         phoneNumber: '',
         email: '',
         notification: false,
+        deliveryType: '',
+        deliveryInfor: {
+            city: '',
+            district: '',
+            ward: '',
+            address: '',
+            note: '',
+        },
         VAT: false,
         companyInfor: {
             name: '',
@@ -37,7 +44,6 @@ function Payment(props) {
             phoneNumber: '',
         },
     });
-
     const validationRules = {
         name: (value) => {
             if (!value) return 'Quý khách vui lòng không bỏ trống Họ và tên';
@@ -54,6 +60,19 @@ function Payment(props) {
             return null;
         },
         notification: () => null,
+        deliveryType: () => null,
+        deliveryInfor: (value, formValidationData) => {
+            return {
+                city: !value.city ? 'Quý khách vui lòng không bỏ trống Tỉnh/Thành phố' : null,
+                district: !value.district ? 'Quý khách vui lòng không bỏ trống Quận/Huyện' : null,
+                ward:
+                    !value.ward && formValidationData.deliveryType === 'delivery'
+                        ? 'Quý khách vui lòng không bỏ trống Phường/Xã'
+                        : null,
+                address: !value.address ? 'Quý khách vui lòng không bỏ trống địa chỉ' : null,
+                note: null,
+            };
+        },
         VAT: () => null,
         companyInfor: (value, formValidationData) => {
             if (formValidationData.VAT) {
@@ -84,7 +103,7 @@ function Payment(props) {
         errors,
         isFormValid,
         setFormValidationData, // Access to setFormValidationData
-    } = useFormValidation(customerInfor, validationRules);
+    } = useFormValidation(paymentInfor, validationRules);
 
     const handleOnCustomerInforChange = (data) => {
         const key = Object.keys(data)[0];
@@ -96,37 +115,46 @@ function Payment(props) {
 
         if (type) {
             const attr = lowercaseFirstLetter(key.split(type)[1]);
-            setCustomerInfor({
-                ...customerInfor,
-                [type]: { ...customerInfor[type], [attr]: Object.values(data)[0] },
+            setPaymentInfor({
+                ...paymentInfor,
+                [type]: { ...paymentInfor[type], [attr]: Object.values(data)[0] },
             });
             setFormValidationData({
                 ...formValidationData,
                 [type]: { ...formValidationData[type], [attr]: Object.values(data)[0] },
             });
         } else {
-            setCustomerInfor({ ...customerInfor, ...data });
+            setPaymentInfor({ ...paymentInfor, ...data });
             setFormValidationData({ ...formValidationData, ...data });
         }
     };
     const handleOnDeliveriOptionsFormChange = (infor) => {
-        setDeliveriInfor({ ...infor });
-        // console.log(infor);
+        const deliveryInfor1 = { ...Object.values(infor)[0] };
+        setPaymentInfor({
+            ...paymentInfor,
+            deliveryType: Object.keys(infor)[0],
+            deliveryInfor: { ...paymentInfor.deliveryInfor, ...deliveryInfor1 },
+        });
+        setFormValidationData({
+            ...formValidationData,
+            deliveryType: Object.keys(infor)[0],
+            deliveryInfor: { ...formValidationData.deliveryInfor, ...deliveryInfor1 },
+        });
     };
     useEffect(() => {
-        if (!customerInfor.receiver) {
-            setCustomerInfor({
-                ...customerInfor,
+        if (!paymentInfor.receiver) {
+            setPaymentInfor({
+                ...paymentInfor,
                 receiverInfor: { name: '', phoneNumber: '' },
             });
         }
-        if (!customerInfor.VAT) {
-            setCustomerInfor({
-                ...customerInfor,
+        if (!paymentInfor.VAT) {
+            setPaymentInfor({
+                ...paymentInfor,
                 companyInfor: { name: '', address: '', taxCode: '' },
             });
         }
-    }, [customerInfor.VAT, customerInfor.receiver]);
+    }, [paymentInfor.VAT, paymentInfor.receiver]);
 
     const handleOnClickBtnNext = () => {
         if (!isFormValid) {
@@ -162,8 +190,8 @@ function Payment(props) {
 
                     <InforTab
                         fetchedDummyData={fetchedDummyData}
-                        deliveryInfor={deliveryInfor}
-                        customerInfor={customerInfor}
+                        deliveryInfor={paymentInfor}
+                        customerInfor={paymentInfor}
                         onCustomerInforChange={handleOnCustomerInforChange}
                         onDeliveriOptionsFormChange={handleOnDeliveriOptionsFormChange}
                     />
