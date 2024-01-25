@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 
 import styles from './Payment.module.scss';
 import { IoArrowBack } from 'react-icons/io5';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { formatCash, lowercaseFirstLetter } from '../../utils/helpers';
 import { STATE_FAIL, STATE_SUCCESS } from '../../constants';
 
 import InforTab from './InforTab';
+import PaymentTab from './PaymentTab';
 import AlertMsg from '../../components/AlertMsg';
 import useFormValidation from '../../hooks/useFormValidation';
 // dummy data
@@ -17,14 +19,20 @@ function Payment(props) {
     // start dummy data
     const [fetchedDummyData, setFetchedDummyData] = useState(productItems.map((item) => ({ ...item, quantity: 1 })));
     // end dummy data
-
+    const totalPrice = fetchedDummyData.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.newPrice * currentValue.quantity,
+        0,
+    );
+    const [showAllItem, setShowAllItem] = useState(false);
+    const numbItemDisplay = showAllItem ? fetchedDummyData.length : 1;
+    const [switchTab, setSwitchTab] = useState(true);
     const [addAlertMsg, setAddAlertMsg] = useState();
     const [paymentInfor, setPaymentInfor] = useState({
         name: '',
         phoneNumber: '',
         email: '',
         notification: false,
-        deliveryType: '',
+        deliveryType: 'pickup',
         deliveryInfor: {
             city: '',
             district: '',
@@ -43,6 +51,7 @@ function Payment(props) {
             name: '',
             phoneNumber: '',
         },
+        coupon: '',
     });
     const validationRules = {
         name: (value) => {
@@ -96,6 +105,7 @@ function Payment(props) {
             }
             return null;
         },
+        coupon: () => null,
     };
 
     const {
@@ -105,7 +115,7 @@ function Payment(props) {
         setFormValidationData, // Access to setFormValidationData
     } = useFormValidation(paymentInfor, validationRules);
 
-    const handleOnCustomerInforChange = (data) => {
+    const handleOnPaymentInforChange = (data) => {
         const key = Object.keys(data)[0];
         const type = key.includes('receiverInfor')
             ? 'receiverInfor'
@@ -143,18 +153,24 @@ function Payment(props) {
     };
     useEffect(() => {
         if (!paymentInfor.receiver) {
-            setPaymentInfor({
-                ...paymentInfor,
+            setPaymentInfor((prev) => ({
+                ...prev,
                 receiverInfor: { name: '', phoneNumber: '' },
-            });
+            }));
         }
         if (!paymentInfor.VAT) {
-            setPaymentInfor({
-                ...paymentInfor,
+            setPaymentInfor((prev) => ({
+                ...prev,
                 companyInfor: { name: '', address: '', taxCode: '' },
-            });
+            }));
         }
     }, [paymentInfor.VAT, paymentInfor.receiver]);
+
+    const handleOnSwitchTab = () => {
+        if (isFormValid) {
+            setSwitchTab(false);
+        }
+    };
 
     const handleOnClickBtnNext = () => {
         if (!isFormValid) {
@@ -170,6 +186,7 @@ function Payment(props) {
             }
         } else {
             setAddAlertMsg({ type: STATE_SUCCESS, msg: `THÔNG TIN ĐỦ` });
+            setSwitchTab(false);
         }
     };
 
@@ -181,28 +198,76 @@ function Payment(props) {
                         <Link to="/cart">
                             <IoArrowBack className={clsx(styles.icon)} />
                         </Link>
-                        <p className={clsx(styles.title)}>Thông tin</p>
+                        <p className={clsx(styles.title)}>{switchTab ? 'THÔNG TIN' : 'THANH TOÁN'}</p>
                     </div>
                     <div className={clsx(styles.tabs)}>
-                        <div className={clsx(styles.tab, { [styles.active]: true })}>1. Thông tin</div>
-                        <div className={clsx(styles.tab, { [styles.active]: false })}>2. Thanh toán</div>
+                        <div
+                            className={clsx(styles.tab, { [styles.active]: switchTab })}
+                            onClick={() => setSwitchTab(!switchTab)}
+                        >
+                            1. Thông tin
+                        </div>
+                        <div className={clsx(styles.tab, { [styles.active]: !switchTab })} onClick={handleOnSwitchTab}>
+                            2. Thanh toán
+                        </div>
                     </div>
-
-                    <InforTab
-                        fetchedDummyData={fetchedDummyData}
-                        deliveryInfor={paymentInfor}
-                        customerInfor={paymentInfor}
-                        onCustomerInforChange={handleOnCustomerInforChange}
-                        onDeliveriOptionsFormChange={handleOnDeliveriOptionsFormChange}
-                    />
+                    <div className={clsx(styles.blockWrapper)}>
+                        <div className={clsx(styles.listProducts)}>
+                            {fetchedDummyData.slice(0, numbItemDisplay).map((item, index) => {
+                                return (
+                                    <div className={clsx(styles.productItem)} key={index}>
+                                        <img src={item.img} alt={item.name} />
+                                        <div className={clsx(styles.info)}>
+                                            <div>{item.name}</div>
+                                            <div>
+                                                <div>
+                                                    <span className={clsx(styles.newPrice)}>
+                                                        {formatCash(item.newPrice)}
+                                                    </span>
+                                                    {item.oldPrice !== 0 ? (
+                                                        <span className={clsx(styles.oldPrice)}>
+                                                            {formatCash(item.oldPrice)}
+                                                        </span>
+                                                    ) : null}
+                                                </div>
+                                                <div>
+                                                    Số lượng:
+                                                    <span className={clsx(styles.newPrice)}>{item.quantity}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <div className={clsx(styles.buttonDropdown)} onClick={() => setShowAllItem(!showAllItem)}>
+                            {showAllItem ? 'Thu gọn' : 'và ' + (fetchedDummyData.length - 1) + ' sản phẩm khác'}
+                            {showAllItem ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+                        </div>
+                    </div>
+                    {switchTab ? (
+                        <InforTab
+                            fetchedDummyData={fetchedDummyData}
+                            paymentInfor={paymentInfor}
+                            onPaymentInforChange={handleOnPaymentInforChange}
+                            onDeliveriOptionsFormChange={handleOnDeliveriOptionsFormChange}
+                        />
+                    ) : (
+                        <PaymentTab
+                            paymentInfor={paymentInfor}
+                            onPaymentInforChange={handleOnPaymentInforChange}
+                            checkoutProductList={fetchedDummyData}
+                            totalPrice={totalPrice}
+                        />
+                    )}
 
                     <div className={clsx(styles.totalPayment)}>
                         <div className={clsx(styles.priceTemp)}>
                             <p>Tổng tiền tạm tính:</p>
-                            <p className={clsx(styles.totalPrice)}>{formatCash(0)}</p>
+                            <p className={clsx(styles.totalPrice)}>{formatCash(totalPrice)}</p>
                         </div>
                         <div className={clsx(styles.button)} onClick={handleOnClickBtnNext}>
-                            Tiếp tục
+                            {switchTab ? 'Tiếp tục' : 'Thanh toán'}
                         </div>
                     </div>
                 </div>

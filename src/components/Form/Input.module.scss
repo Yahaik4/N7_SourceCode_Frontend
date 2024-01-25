@@ -76,6 +76,9 @@
 
 .annote {
     color: #919eab;
+    &.checkbox{
+        margin-left: 20px;
+    }
 }
 
 .alertMsg {

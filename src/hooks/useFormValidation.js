@@ -23,7 +23,6 @@ const useFormValidation = (initialState, validationRules) => {
                 typeof fieldIsValid === 'object' && fieldIsValid !== null
                     ? Object.values(fieldIsValid).every((value) => value === null)
                     : false;
-            console.log(fieldValue);
             if (fieldIsValid !== null && !childAllNull) {
                 isValid = false;
                 newErrors[field] = fieldIsValid;
@@ -33,7 +32,6 @@ const useFormValidation = (initialState, validationRules) => {
         setErrors(newErrors);
         setFormValid(isValid);
     };
-    // console.log(errors);
     return {
         formValidationData,
         errors,

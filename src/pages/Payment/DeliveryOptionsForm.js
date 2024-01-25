@@ -7,32 +7,47 @@ import Select from '../../components/Form/Select';
 import Input from '../../components/Form/Input';
 
 function DeliveryOptiosForm(props) {
-    const { type, onChange } = props;
+    const { type, value, onChange } = props;
     // dummy data
     const itemsSelect = ['Australia', 'India', 'UAE', 'USA', 'VietNam', 'Singapore'];
 
-    const [pickupAddress, setPickupAddress] = useState({
-        city: '',
-        district: '',
-        address: '',
-        note: '',
-    });
-    const [deliveryAddress, setDeliveriAddress] = useState({
-        city: '',
-        district: '',
-        ward: '',
-        address: '',
-        note: '',
-    });
+    const [pickupAddress, setPickupAddress] = useState(
+        type === 'pickup'
+            ? {
+                  city: value.city,
+                  district: value.district,
+                  address: value.address,
+                  note: value.note,
+              }
+            : {
+                  city: '',
+                  district: '',
+                  address: '',
+                  note: '',
+              },
+    );
+    const [deliveryAddress, setDeliveriAddress] = useState(
+        type === 'delivery'
+            ? { city: value.city, district: value.district, ward: value.ward, address: value.address, note: value.note }
+            : {
+                  city: '',
+                  district: '',
+                  ward: '',
+                  address: '',
+                  note: '',
+              },
+    );
 
     const handleOnSelectAddress = (data) => {
         if (type === 'pickup') {
             setPickupAddress({ ...pickupAddress, ...data });
-        } else if (type === 'delivery') {
+        }
+        if (type === 'delivery') {
             setDeliveriAddress({ ...deliveryAddress, ...data });
         }
     };
 
+    // eslint-disable-next-line
     useEffect(() => {
         type === 'pickup' ? onChange({ pickup: pickupAddress }) : onChange({ delivery: deliveryAddress });
     }, [pickupAddress, deliveryAddress, type]);
@@ -43,7 +58,7 @@ function DeliveryOptiosForm(props) {
                 <Select
                     id={'city'}
                     selectValues={itemsSelect}
-                    value={type === 'pickup' ? pickupAddress.city : deliveryAddress.city}
+                    value={value.city}
                     label={'Tỉnh / Thành phố'}
                     placeHolder={'Chọn Tỉnh / Thành phố'}
                     onSelect={handleOnSelectAddress}
@@ -51,7 +66,7 @@ function DeliveryOptiosForm(props) {
                 <Select
                     id={'district'}
                     selectValues={itemsSelect}
-                    value={type === 'pickup' ? pickupAddress.district : deliveryAddress.district}
+                    value={value.district}
                     label={'Quận / huyện'}
                     placeHolder={'Chọn Quận / huyện'}
                     onSelect={handleOnSelectAddress}
@@ -62,7 +77,7 @@ function DeliveryOptiosForm(props) {
                     <Select
                         id={'address'}
                         selectValues={itemsSelect}
-                        value={pickupAddress.address}
+                        value={value.address}
                         label={'Cửa hàng'}
                         placeHolder={'Chọn địa chỉ Cửa hàng'}
                         onSelect={handleOnSelectAddress}
@@ -72,7 +87,7 @@ function DeliveryOptiosForm(props) {
                         <Select
                             id={'ward'}
                             selectValues={itemsSelect}
-                            value={deliveryAddress.ward}
+                            value={value.ward}
                             label={'Phường / xã'}
                             placeHolder={'Chọn Phường / xã'}
                             onSelect={handleOnSelectAddress}
@@ -80,7 +95,7 @@ function DeliveryOptiosForm(props) {
                         <Input
                             type={'text'}
                             id={'address'}
-                            value={deliveryAddress.address}
+                            value={value.address}
                             label={'Địa chỉ'}
                             placeHolder={'Số nhà tên đường'}
                             onChange={handleOnSelectAddress}
@@ -92,7 +107,7 @@ function DeliveryOptiosForm(props) {
                 <Input
                     type={'text'}
                     id={'note'}
-                    value={type === 'pickup' ? pickupAddress.note : deliveryAddress.note}
+                    value={value.note}
                     label={'Ghi Chú'}
                     placeHolder={'ghi chú khác (nếu có)'}
                     onChange={handleOnSelectAddress}

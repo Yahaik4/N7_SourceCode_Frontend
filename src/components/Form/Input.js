@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import useDocumentClick from '../../hooks/useDocumentClick';
 
@@ -7,7 +7,6 @@ import styles from './Input.module.scss';
 
 function Input(props) {
     const { id, type, label, annote = null, placeHolder = null, alertMsg = null, value, onChange } = props;
-    const [isEmpty, setIsEmpty] = useState(true);
     const inputRef = useRef(null);
     const clickedElement = useDocumentClick();
 
@@ -16,7 +15,6 @@ function Input(props) {
             if (type === 'checkbox') {
                 onChange({ [id]: event.target.checked });
             } else {
-                event.target.value ? setIsEmpty(false) : setIsEmpty(true);
                 onChange({ [id]: event.target.value });
             }
         }
@@ -26,10 +24,11 @@ function Input(props) {
             <div className={clsx(styles.container)}>
                 <input
                     id={id}
-                    className={clsx(styles.inputText, { [styles.notEmpty]: !isEmpty })}
+                    className={clsx(styles.inputText, { [styles.notEmpty]: value })}
                     type={type}
                     value={value}
                     onChange={(event) => handleOnChange(event)}
+                    checked={value}
                     ref={inputRef}
                     required
                 />
@@ -40,12 +39,16 @@ function Input(props) {
                     </label>
                 ) : (
                     <label className={clsx({ [styles.label]: type !== 'checkbox' })} htmlFor={id}>
-                        {clickedElement === inputRef.current || !isEmpty ? label : placeHolder}
+                        {clickedElement === inputRef.current || value ? label : placeHolder}
                     </label>
                 )}
             </div>
             {alertMsg && <p className={clsx(styles.alertMsg, { [styles.active]: alertMsg })}>{alertMsg}</p>}
-            {annote && <p className={clsx(styles.annote, styles.active)}>{annote}</p>}
+            {annote && (
+                <p className={clsx(styles.annote, styles.active, { [styles.checkbox]: type === 'checkbox' })}>
+                    {annote}
+                </p>
+            )}
         </div>
     );
 }

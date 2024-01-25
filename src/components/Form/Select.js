@@ -9,22 +9,17 @@ import useDocumentClick from '../../hooks/useDocumentClick';
 function Select(props) {
     const { id, label, placeHolder, selectValues, value, onSelect } = props;
     const inputRef = useRef(null);
-    const dropDownListRef = useRef(null);
-    const [isEmpty, setIsEmpty] = useState(true);
     const [selectedItem, setSelectedItem] = useState('');
     const clickedElement = useDocumentClick();
 
     const handleOnSelectItem = (item) => {
-        if (item) {
-            setSelectedItem(item);
-            setIsEmpty(false);
-            inputRef.current.value = selectedItem;
-        }
+        setSelectedItem(item);
     };
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         onSelect({ [id]: selectedItem });
-    }, [id, selectedItem]);
+    }, [selectedItem]);
 
     return (
         <div className={clsx(styles.wrapper)}>
@@ -33,15 +28,15 @@ function Select(props) {
                     id={id}
                     type="text"
                     className={clsx(styles.inputText, {
-                        [styles.notEmpty]: !isEmpty,
+                        [styles.notEmpty]: value,
                     })}
-                    value={'' || selectedItem}
+                    value={value}
                     ref={inputRef}
                     required
                     readOnly
                 />
                 <label className={clsx(styles.label)} htmlFor={id}>
-                    {clickedElement === inputRef.current || !isEmpty ? label : placeHolder}
+                    {clickedElement === inputRef.current || value ? label : placeHolder}
                 </label>
                 {clickedElement === inputRef.current ? (
                     <IoIosArrowDown className={clsx(styles.icon)} />
@@ -49,10 +44,7 @@ function Select(props) {
                     <IoIosArrowUp className={clsx(styles.icon)} />
                 )}
             </div>
-            <ul
-                className={clsx(styles.dropDownList, { [styles.active]: clickedElement === inputRef.current })}
-                ref={dropDownListRef}
-            >
+            <ul className={clsx(styles.dropDownList, { [styles.active]: clickedElement === inputRef.current })}>
                 {selectValues.map((item, index) => {
                     return (
                         <li key={index} onClick={() => handleOnSelectItem(item)}>

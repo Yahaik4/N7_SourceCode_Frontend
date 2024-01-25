@@ -8,14 +8,14 @@ const paymentIcons = {
     zalopay: require('./zalopay-logo.webp'),
     alepay: require('./alepay-logo.png'),
     fundiin: require('./fundiin.webp'),
-}
+    cardsIcon: require('./cardsIcon.png'),
+};
 
 const webIcons = {
     dienthoaivui: require('./dienthoaivui.webp'),
     cares: require('./Logo_CareS_1.webp'),
     schannel: require('./schanel.webp'),
-    sforum: require('./sforum.webp')
-}
+    sforum: require('./sforum.webp'),
+};
 
-export { paymentIcons, webIcons}
-
+export { paymentIcons, webIcons };
