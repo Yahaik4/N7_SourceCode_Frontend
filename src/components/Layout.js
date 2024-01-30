@@ -32,7 +32,7 @@ function Layout({ children }) {
             {goToTop && (
                 <button id={clsx(styles.backToTop)} onClick={handleScrollToTop}>
                     <IoIosArrowUp className={clsx(styles.icon)} />
-                    <strong>Lên đâu</strong>
+                    <strong>Lên đầu</strong>
                 </button>
             )}
             <Footer />

@@ -1,4 +1,4 @@
-@import 'normalize.css';
+@import '~normalize.css/normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
@@ -6,7 +6,6 @@
     --layout-width-content: 1200px;
 
     --layout-header-height: 64px;
-
 }
 
 * {
@@ -24,4 +23,5 @@ body {
     font-size: 1em;
     line-height: 1.5;
     font-weight: 400;
+    width: 100%;
 }

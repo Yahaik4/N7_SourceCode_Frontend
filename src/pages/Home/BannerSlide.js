@@ -17,7 +17,7 @@ function BannerSlide() {
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.imgSection)}>
                 <SlideScrollable
-                    slideShowItemLength={slideShowItems.length-1}
+                    slideShowItemLength={slideShowItems.length - 1}
                     translatePercent={100}
                     forceTranslateTo={slideIndex}
                     updateThumbnailIndex={handleUpdateSlideIndex}
@@ -34,7 +34,7 @@ function BannerSlide() {
             <div className={clsx(styles.contentsSection)}>
                 <div className={clsx(styles.slideContents)}>
                     <SlideScrollable
-                        slideShowItemLength={slideShowItems.length-1}
+                        slideShowItemLength={slideShowItems.length - 1}
                         translatePercent={20}
                         showBtn={false}
                         scrollable={true}
@@ -45,15 +45,11 @@ function BannerSlide() {
                         }}
                     >
                         {slideShowItems.map((slide, index) => {
-                            let isActive = false;
-                            if (index === slideIndex) {
-                                isActive = true;
-                            }
                             return (
                                 <div
                                     key={index}
                                     className={clsx(styles.slideContent, {
-                                        [styles.active]: isActive,
+                                        [styles.active]: index === slideIndex,
                                     })}
                                     onClick={() => setSlideIndex(index)}
                                 >

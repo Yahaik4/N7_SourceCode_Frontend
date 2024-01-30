@@ -44,10 +44,10 @@ function SlideScrollable(props) {
             left: `${(slideIndex * slideShowRef.current.clientWidth * translatePercent) / 100}`,
             behavior: 'smooth',
         });
-        if(updateThumbnailIndex !== null){
-            updateThumbnailIndex(slideIndex)
+        if (updateThumbnailIndex !== null) {
+            updateThumbnailIndex(slideIndex);
         }
-    }, [slideIndex, translatePercent, updateThumbnailIndex]);
+    }, [slideIndex, translatePercent]);
 
     useEffect(() => {
         if (forceTranslateTo !== -1) {
