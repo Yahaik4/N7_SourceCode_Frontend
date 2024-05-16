@@ -26,7 +26,7 @@ function BannerSlide() {
                     }}
                 >
                     {slideShowItems.map((slide, index) => {
-                        return <img key={index} src={slide.img} alt={slide.title} width="" />;
+                        return <img key={index} src={slide.img} alt={slide.title} />;
                     })}
                 </SlideScrollable>
             </div>

@@ -21,6 +21,7 @@ const banners = {
         require('./banner-cate-apple.webp'),
         require('./cate-iphone-new-tragop.webp'),
     ],
+    leftBanner: [require('./Left-80x270.webp')],
 };
 
 export default banners;

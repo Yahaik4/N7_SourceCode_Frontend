@@ -16,6 +16,7 @@ const webIcons = {
     cares: require('./Logo_CareS_1.webp'),
     schannel: require('./schanel.webp'),
     sforum: require('./sforum.webp'),
+    avatar: require('./Shipper_CPS3_1.webp'),
 };
 
 export { paymentIcons, webIcons };

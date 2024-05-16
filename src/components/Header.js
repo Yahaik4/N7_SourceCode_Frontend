@@ -1,19 +1,20 @@
 import clsx from 'clsx';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // icon
-import { BiSearchAlt2 } from 'react-icons/bi';
-import { SlBag, SlLocationPin } from 'react-icons/sl';
+import { SlBag } from 'react-icons/sl';
 import { HiOutlineUserCircle, HiOutlinePhone, HiOutlineTruck } from 'react-icons/hi2';
 import { LuMenuSquare } from 'react-icons/lu';
-import { IoIosArrowDown, IoIosArrowForward } from 'react-icons/io';
+import { IoIosArrowForward } from 'react-icons/io';
 import { FaHouse } from 'react-icons/fa6';
 
 // file
 import styles from './Header.module.scss';
 import images from '../assets/img';
 import Catalog from './Catalog';
+import SearchBar from './Form/SearchBar';
+import axios from 'axios';
 
 function Header() {
     let { products, brand } = useParams();
@@ -21,10 +22,33 @@ function Header() {
     const pathnames = location.pathname.split('/').filter((x) => x);
 
     const [showCatalogModal, setShowCatalogModal] = useState(false);
+    const [auth, setAuth] = useState('');
 
     const handleShowCatalog = () => {
         setShowCatalogModal(!showCatalogModal);
     };
+    const handleOnSearch = async (query) => {
+        const options = {
+            url: `http://localhost:1337/api/products?fields[0]=productName&populate[brand][fields][0]=brandName&filters[productName][$containsi]=${query}`,
+            method: 'GET',
+        };
+        try {
+            const response = await axios.request(options);
+            const result = response.data;
+            return result.data;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    };
+    useEffect(() => {
+        if (localStorage.getItem('auth') && auth === '') {
+            setAuth(localStorage.getItem('auth'));
+        }
+        if (!localStorage.getItem('auth') && auth !== '') {
+            setAuth('');
+        }
+    });
 
     return (
         <>
@@ -33,28 +57,19 @@ function Header() {
                     <Link to="/">
                         <img src={images.logo} alt="logo" />
                     </Link>
-                    <div
-                        className={clsx(styles.menuButton, styles.btn)}
-                        onClick={handleShowCatalog}
-                    >
+                    <div className={clsx(styles.menuButton, styles.btn)} onClick={handleShowCatalog}>
                         <LuMenuSquare className={clsx(styles.icon)} /> Danh mục
                     </div>
-                    <div className={clsx(styles.localStoreButton, styles.btn)}>
-                        <SlLocationPin className={clsx(styles.icon)} />
-                        <div className={clsx(styles.localStoreContent)}>
-                            <div className={clsx(styles.localStoreTitle)}>
-                                <p>Xem giá tại</p>
-                                <IoIosArrowDown />
-                            </div>
-                            <p>Hồ chí minh</p>
-                        </div>
-                    </div>
+
                     <form>
                         <div className={clsx(styles.searchBar)}>
-                            <button type="submit">
-                                <BiSearchAlt2 className={clsx(styles.icon)} />
-                            </button>
-                            <input className={clsx(styles.inputGroupBtn)} placeholder="Bạn cần tìm gì?"></input>
+                            <SearchBar
+                                className={'w-full'}
+                                placeholder={'Tìm kiếm'}
+                                name={'productName'}
+                                onSearch={handleOnSearch}
+                                onSelect={(result) => {}}
+                            />
                         </div>
                     </form>
                     <Link to="/">
@@ -67,14 +82,7 @@ function Header() {
                             </p>
                         </div>
                     </Link>
-                    <Link to="/">
-                        <div className={clsx(styles.localStoreButton)}>
-                            <SlLocationPin className={clsx(styles.icon)} />
-                            <div className={clsx(styles.localStoreContent)}>
-                                Cửa hàng <br /> gần bạn
-                            </div>
-                        </div>
-                    </Link>
+
                     <Link to="/">
                         <div className={clsx(styles.cartButton)}>
                             <HiOutlineTruck className={clsx(styles.icon)} />
@@ -87,10 +95,10 @@ function Header() {
                             Giỏ <br /> Hàng
                         </div>
                     </Link>
-                    <Link to="/login">
+                    <Link to={auth === '' ? '/login' : '/profile'}>
                         <div className={clsx(styles.loginButton, styles.btn)}>
                             <HiOutlineUserCircle className={clsx(styles.icon)} />
-                            Đăng nhập
+                            {auth === '' ? 'Đăng nhập' : localStorage.getItem('username')}
                         </div>
                     </Link>
                 </nav>
@@ -163,7 +171,7 @@ function Header() {
 
             {showCatalogModal ? (
                 <div className={clsx(styles.catalogDropDownModal)} onClick={handleShowCatalog}>
-                    <Catalog isDropDown={showCatalogModal}/>
+                    <Catalog isDropDown={showCatalogModal} />
                 </div>
             ) : null}
         </>

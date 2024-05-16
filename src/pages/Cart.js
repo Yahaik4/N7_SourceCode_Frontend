@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import styles from './Cart.module.scss';
@@ -7,71 +7,54 @@ import { formatCash } from './../utils/helpers';
 import { IoArrowBack, IoTrashOutline } from 'react-icons/io5';
 import images from '../assets/img';
 
-import QuantityInput from '../components/QuantityInput';
 // dummy data
-import productItems from '.././constants/productItems';
+import axios from 'axios';
 
 function CartPage(props) {
-    const [selectAll, setSelectAll] = useState(false);
-    const [selectedItems, setSelectedItems] = useState([]);
+    const navigate = useNavigate();
     const [totalPrice, setTotalPrice] = useState(0);
-    const [fetchedDummyData, setFetchedDummyData] = useState(productItems.map((item) => ({ ...item, quantity: 1 })));
-
-    // uncomment to test ui empty cart
-    // const [fetchedDummyData, setFetchedDummyData] = useState([]);
-
-    const selectAllRef = useRef();
-
-    const handleQuantityOnChange = (quantity, id) => {
-        setFetchedDummyData((prevData) =>
-            prevData.map((item) => (item.id === id ? { ...item, quantity: quantity } : item)),
-        );
-    };
-
-    const handleSelectAll = () => {
-        if (!selectAll && selectedItems.length !== fetchedDummyData.length) {
-            setSelectedItems([...fetchedDummyData.map((item) => item.id)]);
-            setSelectAll(true);
-        } else {
-            setSelectedItems([]);
-            setSelectAll(false);
-        }
-    };
-
-    const handleSelectItem = (id) => {
-        if (!selectedItems.includes(id)) {
-            setSelectedItems([...selectedItems, id]);
-        } else {
-            setSelectedItems(selectedItems.filter((item) => item !== id));
-        }
-    };
+    const [products, setProducts] = useState([]);
 
     const handleRemoveItem = (id) => {
-        setFetchedDummyData([...fetchedDummyData.filter((item) => item.id !== id)]);
+        setProducts(products.filter((product) => product.id != id));
+        const cart = localStorage.getItem('cart');
+        localStorage.setItem('cart', [...cart.split(',').filter((item) => item != id)]);
     };
 
     useEffect(() => {
-        if (selectedItems.length === fetchedDummyData.length) {
-            setSelectAll(true);
-        } else {
-            setSelectAll(false);
+        const auth = localStorage.getItem('auth');
+        const cart = localStorage.getItem('cart');
+        if (!auth) {
+            navigate('/login');
         }
-    }, [selectedItems, fetchedDummyData]);
-
+        const getProductInCart = async () => {
+            let url =
+                'http://localhost:1337/api/products?populate[image][fields][0]=url&populate[brand][fields][0]=brandName&';
+            if (cart) {
+                cart.split(',').map((item, index) => (url += `filters[id][$in][${index}]=${item}&`));
+                url = url.substring(0, url.length - 1);
+                const options = {
+                    url: url,
+                    method: 'GET',
+                };
+                await axios
+                    .request(options)
+                    .then((response) => response.data)
+                    .then((result) => setProducts(result.data))
+                    .catch((err) => console.log(err));
+            }
+        };
+        getProductInCart();
+    }, []);
     useEffect(() => {
-        if (selectedItems.length !== 0) {
-            setTotalPrice(0);
-            fetchedDummyData.forEach((product) => {
-                if (selectedItems.includes(product.id)) {
-                    setTotalPrice((prev) => (prev += product.newPrice * product.quantity));
-                }
-            });
-        } else {
-            setTotalPrice(0);
+        let totalPrice = 0;
+        if (products.length > 0) {
+            products.map((product) => (totalPrice += parseInt(product.attributes.sellPrice)));
+            setTotalPrice(totalPrice);
         }
-    }, [selectedItems, fetchedDummyData]);
-
-    return fetchedDummyData.length > 0 ? (
+    }, [products]);
+    console.log(products);
+    return products.length > 0 ? (
         <div className={clsx(styles.wrapper)}>
             <div className={clsx(styles.container)}>
                 <div className={clsx(styles.header)}>
@@ -80,43 +63,30 @@ function CartPage(props) {
                     </Link>
                     <p className={clsx(styles.title)}>Giỏ hàng của bạn</p>
                 </div>
-                <div className={clsx(styles.groupBtn)}>
-                    <div className={clsx(styles.selectAll)}>
-                        <input
-                            type="checkbox"
-                            id="selectAll"
-                            ref={selectAllRef}
-                            checked={selectAll}
-                            onChange={handleSelectAll}
-                        />
-                        <label htmlFor="selectAll">Chọn tất cả</label>
-                    </div>
-                    <div className={clsx(styles.button)} onClick={() => setFetchedDummyData([])}>
-                        Xoá tất cả sản phẩm trong giỏ hàng
-                    </div>
-                </div>
+
                 <div className={clsx(styles.listProducts)}>
-                    {fetchedDummyData.map((item, index) => {
+                    {products.map((item, index) => {
                         return (
                             <div className={clsx(styles.productItem)} key={index}>
                                 <div className={clsx(styles.checkBoxGroup)}>
-                                    <input
-                                        type="checkbox"
-                                        name={item.id}
-                                        id={item.id}
-                                        onChange={() => {
-                                            handleSelectItem(item.id);
-                                        }}
-                                        checked={selectAll || selectedItems.includes(item.id)}
-                                    />
                                     <label htmlFor={item.id}>
-                                        <img src={item.img} alt={item.name} />
+                                        <img
+                                            src={`http://localhost:1337${
+                                                item.attributes ? item.attributes.image.data.attributes.url : null
+                                            }`}
+                                            alt={item.attributes ? item.attributes.productName : null}
+                                        />
                                     </label>
                                 </div>
                                 <div className={clsx(styles.info)}>
                                     <div>
-                                        <Link className={clsx(styles.name)} to={item.href}>
-                                            {item.name}
+                                        <Link
+                                            className={clsx(styles.name)}
+                                            to={`/${
+                                                item.attributes ? item.attributes.brand.data.attributes.brandName : null
+                                            }/${item.id}`}
+                                        >
+                                            {item.attributes ? item.attributes.productName : null}
                                         </Link>
                                         <IoTrashOutline
                                             className={clsx(styles.icon)}
@@ -125,14 +95,12 @@ function CartPage(props) {
                                     </div>
                                     <div>
                                         <div>
-                                            <span className={clsx(styles.newPrice)}>{formatCash(item.newPrice)}</span>{' '}
-                                            {item.oldPrice !== 0 ? (
-                                                <span className={clsx(styles.oldPrice)}>
-                                                    {formatCash(item.oldPrice)}
-                                                </span>
-                                            ) : null}
+                                            <span className={clsx(styles.newPrice)}>
+                                                {formatCash(
+                                                    item.attributes ? parseInt(item.attributes.sellPrice) : null,
+                                                )}
+                                            </span>{' '}
                                         </div>
-                                        <QuantityInput id={item.id} onChange={handleQuantityOnChange} />
                                     </div>
                                 </div>
                             </div>
@@ -143,10 +111,7 @@ function CartPage(props) {
                     <div className={clsx(styles.priceTemp)}>
                         Tạm tính: <p className={clsx(styles.totalPrice)}>{formatCash(totalPrice)}</p>
                     </div>
-                    <Link
-                        to="/payment"
-                        className={clsx(styles.button, { [styles.disable]: selectedItems.length === 0 })}
-                    >
+                    <Link to="/payment" className={clsx(styles.button, { [styles.disable]: false })}>
                         Mua Ngay
                     </Link>
                 </div>

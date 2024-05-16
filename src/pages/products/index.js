@@ -1,44 +1,27 @@
-import { useParams, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import clsx from 'clsx';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // icon
-import { FaFilter, FaTruckFast, FaMoneyBill } from 'react-icons/fa6';
-import { FaSortAmountDown, FaSortAmountDownAlt, FaPercent, FaEye } from 'react-icons/fa';
+import { FaSortAmountDown, FaSortAmountDownAlt, FaEye } from 'react-icons/fa';
 import { IoCloseCircle } from 'react-icons/io5';
 
 import styles from './Products.module.scss';
 // dummy data
 import images from '../../assets/img';
-import productItems from '../../constants/productItems';
-import filter from '../../constants/filter';
 
 // component
-import SlideScrollable from '../../components/SlideScrollable';
-import DropDownBtn from './DropDownBtn';
-import Button from './Button';
 import ProductCardDetailed from '../../components/ProductCardDetailed';
+import Button from './Button';
+import axios from 'axios';
 
 function Products() {
-    let { products, brand } = useParams();
-    const productFilter = { 'Bộ lọc': [], 'Sẵn hàng': [], Giá: [], ...filter[products] };
+    const location = useLocation();
 
-    const [activeDropdown, setActiveDropdown] = useState(null);
+    const [product, setProduct] = useState([]);
     const [activeSortBtn, setActiveSortBtn] = useState(null);
     const [filteringList, setFilteringList] = useState({ 'Bỏ chọn tất cả': [] });
     const wrapperRef = useRef();
-
-    const handleSelectedFilter = (selectedFilter) => {
-        setActiveDropdown(selectedFilter);
-    };
-
-    const handleSelecteFilterItem = (selecteFilterItems) => {
-        if (!(Object.keys(selecteFilterItems) in filteringList)) {
-            setFilteringList({ ...selecteFilterItems, ...filteringList });
-        } else {
-            setFilteringList({ ...filteringList, ...selecteFilterItems });
-        }
-    };
 
     const handleRemoveItemFilteringList = (data) => {
         if (data.localeCompare('Bỏ chọn tất cả') === 0) {
@@ -53,75 +36,55 @@ function Products() {
         setActiveSortBtn(btnRef);
     };
 
+    const handleOnSort = async (order) => {
+        getProductBySort(order)
+    };
+
+    const getProductsByBrand = async () => {
+        const brand = location.pathname.split('/').pop() !== 'search' ? location.pathname.split('/').pop() : '';
+        const options = {
+            url: `http://localhost:1337/api/products?populate[brand][fields][0]=brandName&filters[brand][brandName][$eq]=${brand}&populate[image][fields][0]=url`,
+            method: 'GET',
+        };
+        await axios
+            .request(options)
+            .then((res) => res.data)
+            .then((result) => setProduct(result.data))
+            .catch((err) => console.log(err));
+    };
+
+    const getProductBySort = async (order) => {
+        if (order === 'none') {
+            return getProductsByBrand();
+        }
+        const brand = location.pathname.split('/').pop() !== 'search' ? location.pathname.split('/').pop() : '';
+        const options = {
+            url: `http://localhost:1337/api/products?populate[brand][fields][0]=brandName&filters[brand][brandName][$eq]=${brand}&populate[image][fields][0]=url&sort[0]=sellPrice:${order}`,
+            method: 'GET',
+        };
+        await axios
+            .request(options)
+            .then((res) => res.data)
+            .then((result) => setProduct(result.data))
+            .catch((err) => console.log(err));
+    };
+
+    useEffect(() => {
+        getProductsByBrand();
+    }, []);
+
     return (
-        <div className={clsx(styles.wrapper)} onClick={() => setActiveDropdown(wrapperRef)} ref={wrapperRef}>
+        <div className={clsx(styles.wrapper)} ref={wrapperRef}>
             <div className={clsx(styles.bannerSlider)}>
                 <div className={clsx(styles.banner)}>
-                    <SlideScrollable
-                        slideShowItemLength={images.banners.productsPageBanner.length}
-                        translatePercent={100}
-                        settingSlideLayout={{
-                            display: 'flex',
-                        }}
-                    >
-                        {images.banners.productsPageBanner.map((banner, index) => {
-                            return (
-                                <Link to="/" key={index}>
-                                    <img src={banner} alt="" />
-                                </Link>
-                            );
-                        })}
-                    </SlideScrollable>
+                    <Link to="/">
+                        <img src={images.banners.productsPageBanner[0]} alt="" />
+                    </Link>
                 </div>
                 <div className={clsx(styles.banner)}>
-                    <SlideScrollable
-                        slideShowItemLength={images.banners.productsPageBanner.length}
-                        translatePercent={100}
-                        settingSlideLayout={{
-                            display: 'flex',
-                        }}
-                    >
-                        {images.banners.productsPageBanner.map((banner, index) => {
-                            return (
-                                <Link to="/" key={index}>
-                                    <img src={banner} alt="" />
-                                </Link>
-                            );
-                        })}
-                    </SlideScrollable>
-                </div>
-            </div>
-            <div className={clsx(styles.filter)}>
-                <h4 className={clsx(styles.title)}>Chọn theo tiêu chí</h4>
-                <div className={clsx(styles.btnList)}>
-                    {Object.keys(productFilter).map((key, index) => {
-                        let IconComponent;
-                        switch (key) {
-                            case 'Bộ lọc':
-                                IconComponent = FaFilter;
-                                break;
-                            case 'Sẵn hàng':
-                                IconComponent = FaTruckFast;
-                                break;
-                            case 'Giá':
-                                IconComponent = FaMoneyBill;
-                                break;
-                            default:
-                                break;
-                        }
-                        return (
-                            <DropDownBtn
-                                key={index}
-                                IconComponent={IconComponent}
-                                title={key}
-                                openDropdown={activeDropdown}
-                                menuData={productFilter[key]}
-                                onSelectedFilter={handleSelectedFilter}
-                                onSelectedFilterItem={handleSelecteFilterItem}
-                                filteringList={filteringList}
-                            />
-                        );
-                    })}
+                    <Link to="/">
+                        <img src={images.banners.productsPageBanner[1]} alt="" />
+                    </Link>
                 </div>
             </div>
 
@@ -148,39 +111,38 @@ function Products() {
             <div className={clsx(styles.sort)}>
                 <h4 className={clsx(styles.title)}>Sắp xếp theo</h4>
                 <div className={clsx(styles.btnList)}>
-                    <Button
-                        IconComponent={FaSortAmountDown}
-                        title={'Giá Cao - Thấp'}
-                        active={activeSortBtn}
-                        handleSelectedSortBtn={handleSelecteSortBtn}
-                        type="sortList"
-                    />
-                    <Button
-                        IconComponent={FaSortAmountDownAlt}
-                        title={'Giá Thấp - Cao'}
-                        active={activeSortBtn}
-                        handleSelectedSortBtn={handleSelecteSortBtn}
-                        type="sortList"
-                    />
-                    <Button
-                        IconComponent={FaPercent}
-                        title={'Khuyến mãi Hot'}
-                        active={activeSortBtn}
-                        handleSelectedSortBtn={handleSelecteSortBtn}
-                        type="sortList"
-                    />
-                    <Button
-                        IconComponent={FaEye}
-                        title={'Xem Nhiều'}
-                        active={activeSortBtn}
-                        init={true}
-                        handleSelectedSortBtn={handleSelecteSortBtn}
-                        type="sortList"
-                    />
+                    <div onClick={() => handleOnSort('desc')}>
+                        <Button
+                            IconComponent={FaSortAmountDown}
+                            title={'Giá Cao - Thấp'}
+                            active={activeSortBtn}
+                            handleSelectedSortBtn={handleSelecteSortBtn}
+                            type="sortList"
+                        />
+                    </div>
+                    <div onClick={() => handleOnSort('asc')}>
+                        <Button
+                            IconComponent={FaSortAmountDownAlt}
+                            title={'Giá Thấp - Cao'}
+                            active={activeSortBtn}
+                            handleSelectedSortBtn={handleSelecteSortBtn}
+                            type="sortList"
+                        />
+                    </div>
+                    <div onClick={() => handleOnSort('none')}>
+                        <Button
+                            IconComponent={FaEye}
+                            title={'Xem Nhiều'}
+                            active={activeSortBtn}
+                            init={true}
+                            handleSelectedSortBtn={handleSelecteSortBtn}
+                            type="sortList"
+                        />
+                    </div>
                 </div>
             </div>
             <div className={clsx(styles.products)}>
-                {productItems.map((item, index) => {
+                {product.map((item, index) => {
                     return <ProductCardDetailed item={item} key={index} />;
                 })}
             </div>

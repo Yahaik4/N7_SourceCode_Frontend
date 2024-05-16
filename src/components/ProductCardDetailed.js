@@ -9,69 +9,78 @@ import styles from './ProductCardDetailed.module.scss';
 import { formatCash } from '../utils/helpers';
 
 const ProductCardDetailed = forwardRef((props, ref) => {
-    const { item = null } = props;
+    const { item = null, brand } = props;
     const [isHoverWishListBtn, setIsHoverWishListBtn] = useState(false);
-
-    let isPreferential = false;
+    const attributes = item.hasOwnProperty('attributes') ? item.attributes : null;
     let isSaleOff = false;
-    if (item.peferential.length > 0) {
-        isPreferential = true;
-    }
-    if (item.oldPrice > 0 && item.percentOff != null) {
+
+    if (parseInt(attributes.sellPrice) < parseInt(attributes.originalPrice)) {
         isSaleOff = true;
     }
 
     return (
-        <Link to={item.href} className={clsx(styles.productItem)} ref={ref}>
-            <div className={clsx(styles.percentOffRibbon, { [styles.active]: isSaleOff })}>
-                <p className={clsx(styles.percentOffDetail)}>Giảm {item.percentOff}</p>
-            </div>
-            <div className={clsx(styles.productImg)}>
-                <img src={item.img} alt={item.name} />
-            </div>
-            <div className={clsx(styles.productDetails)}>
-                <h3 className={clsx(styles.productName)}>{item.name}</h3>
+        item.hasOwnProperty('attributes') &&
+        item && (
+            <Link to={`/${brand}/${item.id}`} className={clsx(styles.productItem)} ref={ref}>
+                <div className={clsx(styles.percentOffRibbon, { [styles.active]: isSaleOff })}>
+                    <p className={clsx(styles.percentOffDetail)}>
+                        Giảm{' '}
+                        {100 - (parseInt(attributes.sellPrice) / parseInt(attributes.originalPrice)).toFixed(2) * 100} %
+                    </p>
+                </div>
+                <div className={clsx(styles.productImg)}>
+                    <img
+                        src={`http://localhost:1337${
+                            attributes.image
+                                ? attributes.image.data
+                                    ? attributes.image.data.attributes.url
+                                    : null
+                                : null
+                        }`}
+                        alt={attributes.productName}
+                    />
+                </div>
+                <div className={clsx(styles.productDetails)}>
+                    <h3 className={clsx(styles.productName)}>{attributes.productName}</h3>
 
-                <div className={clsx(styles.productPrices)}>
-                    <div className={clsx(styles.activePrice)}>
-                        {formatCash(item.newPrice)}
-                        <span className={clsx(styles.oldPrice, { [styles.active]: isSaleOff })}>
-                            {formatCash(item.oldPrice)}
-                        </span>
+                    <div className={clsx(styles.productPrices)}>
+                        <div className={clsx(styles.activePrice)}>
+                            {formatCash(attributes.sellPrice)}
+                            <span className={clsx(styles.oldPrice, { [styles.active]: true })}>
+                                {formatCash(attributes.originalPrice)}
+                            </span>
+                        </div>
                     </div>
-                    <div style={item.updatePrice > 0 ? { display: 'block' } : { display: 'none' }}>
-                        Giá lên đời: <span className={clsx(styles.activePrice)}>{formatCash(item.updatePrice)}</span>
+                    <div
+                        className={clsx(styles.productPeferential, {
+                            [styles.active]: true,
+                        })}
+                    >
+                        Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3-6 tháng
+                    </div>
+
+                    <div className={clsx(styles.productRate)}>
+                        <AiFillStar />
+                        <AiFillStar />
+                        <AiFillStar />
+                        <AiFillStar />
+                        <AiFillStar />
                     </div>
                 </div>
                 <div
-                    className={clsx(styles.productPeferential, {
-                        [styles.active]: isPreferential,
-                    })}
+                    className={clsx(styles.wishListBtn)}
+                    onMouseEnter={() => setIsHoverWishListBtn(true)}
+                    onMouseLeave={() => setIsHoverWishListBtn(false)}
                 >
-                    <p>{item.peferential[0]}</p>
+                    Yêu thích
+                    {isHoverWishListBtn ? (
+                        <AiFillHeart className={clsx(styles.wishListIcon)} />
+                    ) : (
+                        <AiOutlineHeart className={clsx(styles.wishListIcon)} />
+                    )}
                 </div>
-
-                <div className={clsx(styles.productRate)}>
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                    <AiFillStar />
-                </div>
-            </div>
-            <div
-                className={clsx(styles.wishListBtn)}
-                onMouseEnter={() => setIsHoverWishListBtn(true)}
-                onMouseLeave={() => setIsHoverWishListBtn(false)}
-            >
-                Yêu thích
-                {isHoverWishListBtn ? (
-                    <AiFillHeart className={clsx(styles.wishListIcon)} />
-                ) : (
-                    <AiOutlineHeart className={clsx(styles.wishListIcon)} />
-                )}
-            </div>
-        </Link>
+            </Link>
+        )
     );
 });
 
